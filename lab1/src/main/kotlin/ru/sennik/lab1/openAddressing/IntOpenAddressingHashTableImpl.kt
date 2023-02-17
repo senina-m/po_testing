@@ -17,6 +17,8 @@ class IntOpenAddressingHashTableImpl(
       }
    }
 
+   private val table = MutableList(initialSize) { _ -> 0 }
+   private var fullCount = 0
    override fun put(elem: Int) {
       TODO("Not yet implemented")
    }
@@ -31,5 +33,10 @@ class IntOpenAddressingHashTableImpl(
 
    override fun getList(): List<Int?> {
       TODO("Not yet implemented")
+   }
+
+   private fun isFillEnough() {
+      val currentSize = table.size
+
    }
 }
