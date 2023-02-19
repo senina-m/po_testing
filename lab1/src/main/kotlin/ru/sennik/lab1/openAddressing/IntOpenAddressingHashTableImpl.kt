@@ -13,7 +13,7 @@ class IntOpenAddressingHashTableImpl<T>(
 ) : IntOpenAddressingHashTable<T> {
    init {
       if (initialSize < 1) { throw IllegalArgumentException("initialSize must be more or equal to 1") }
-      if (fillFactor > 100 || fillFactor < 0) {
+      if (fillFactor > 100 || fillFactor <= 0) {
          throw IllegalArgumentException("fillFactor is percent and must be between 0 and 100")
       }
       if (initialSize.toDouble() / 100 * fillFactor < 1) {
@@ -35,6 +35,7 @@ class IntOpenAddressingHashTableImpl<T>(
             val currentSize = table.size
             table.addAll(getNullPairList(currentSize))
             freeMap.addAll(getBoolList(currentSize))
+            println("table size now ${table.size}")
          }
       } catch (ex: NotFoundException) {
          throw InternalException("Unexpected error. Please, send a report about it", ex)
@@ -71,7 +72,8 @@ class IntOpenAddressingHashTableImpl<T>(
 
    private fun isFillEnough(): Boolean {
       val currentSize = table.size
-      val factor = currentSize.toDouble() / fullCount
+      val factor = fullCount.toDouble() * 100 / currentSize
+      println("factor $factor")
       return factor >= fillFactor
    }
 
