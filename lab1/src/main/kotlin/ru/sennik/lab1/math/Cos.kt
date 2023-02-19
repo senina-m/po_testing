@@ -1,3 +1,4 @@
+package ru.sennik.lab1.math
 import java.lang.RuntimeException
 
 fun cos(x: Double, accuracy: Double): Double {
