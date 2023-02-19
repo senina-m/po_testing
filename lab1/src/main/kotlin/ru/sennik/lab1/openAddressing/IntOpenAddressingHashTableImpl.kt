@@ -35,7 +35,6 @@ class IntOpenAddressingHashTableImpl<T>(
             val currentSize = table.size
             table.addAll(getNullPairList(currentSize))
             freeMap.addAll(getBoolList(currentSize))
-            println("table size now ${table.size}")
          }
       } catch (ex: NotFoundException) {
          throw InternalException("Unexpected error. Please, send a report about it", ex)
@@ -73,7 +72,6 @@ class IntOpenAddressingHashTableImpl<T>(
    private fun isFillEnough(): Boolean {
       val currentSize = table.size
       val factor = fullCount.toDouble() * 100 / currentSize
-      println("factor $factor")
       return factor >= fillFactor
    }
 

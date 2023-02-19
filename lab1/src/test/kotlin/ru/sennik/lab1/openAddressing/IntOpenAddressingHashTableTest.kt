@@ -55,7 +55,6 @@ class IntOpenAddressingHashTableTest {
         )
     }
 
-    // put one elem
     @Test
     fun `Put in table elem, then elem display in list`() {
         // arrange
@@ -70,7 +69,7 @@ class IntOpenAddressingHashTableTest {
             table.getList()
         )
     }
-    // put repeat key - already then hash isn't free
+
     @Test
     fun `Put in table two elem with same key, then second elem has offset`() {
         // arrange
@@ -86,7 +85,7 @@ class IntOpenAddressingHashTableTest {
             table.getList()
         )
     }
-    // put busy key with go around
+
     @Test
     fun `Put in table elem with key place busy and not free place until end, then elem in start`() {
         // arrange
@@ -104,7 +103,6 @@ class IntOpenAddressingHashTableTest {
         )
     }
 
-    // find simple key
     @Test
     fun `In table elem which key in its position, then elem found successful`() {
         // arrange
@@ -119,7 +117,7 @@ class IntOpenAddressingHashTableTest {
         // assert
         Assertions.assertEquals(value, elem)
     }
-    // find key with offset
+
     @Test
     fun `In table two elem with same key, then found first elem`() {
         // arrange
@@ -136,7 +134,7 @@ class IntOpenAddressingHashTableTest {
         // assert
         Assertions.assertEquals(value, elem)
     }
-    // find key with offset with go around
+
     @Test
     fun `In table elem in position less than its key, then elem found successful`() {
         // arrange
@@ -155,7 +153,6 @@ class IntOpenAddressingHashTableTest {
         Assertions.assertEquals(value, elem)
     }
 
-    // not found key
     @Test
     fun `In table key place busy by another elem, then elem found failed`() {
         // arrange
@@ -174,7 +171,6 @@ class IntOpenAddressingHashTableTest {
         )
     }
 
-    // delete simple key
     @Test
     fun `In table elem which key in its position, then delete elem successful`() {
         // arrange
@@ -191,26 +187,7 @@ class IntOpenAddressingHashTableTest {
             table.getList()
         )
     }
-    // delete key offset
-    @Test
-    fun `In table elem in position less than its key, then delete first elem`() {
-        // arrange
-        val initSize = 4
-        val table = IntOpenAddressingHashTableImpl<String>(75, initSize)
-        val key = initSize - 1
-        table.put(key + initSize, "0")
-        table.put(key, "1")
 
-        // act
-        table.delete(key)
-
-        // assert
-        Assertions.assertIterableEquals(
-            listOf(null, Pair(key, "1"), null, null),
-            table.getList()
-        )
-    }
-    // delete key offset with go around
     @Test
     fun `In table two elems with same key, then delete first elem`() {
         // arrange
@@ -229,7 +206,25 @@ class IntOpenAddressingHashTableTest {
         )
     }
 
-    // delete not found
+    @Test
+    fun `In table elem in position less than its key, then delete elem successful`() {
+        // arrange
+        val initSize = 4
+        val table = IntOpenAddressingHashTableImpl<String>(75, initSize)
+        val key = initSize - 1
+        table.put(key + initSize, "0")
+        table.put(key, "1")
+
+        // act
+        table.delete(key)
+
+        // assert
+        Assertions.assertIterableEquals(
+            listOf(null, null, null, Pair(key + initSize, "0")),
+            table.getList()
+        )
+    }
+
     @Test
     fun `In table key place busy by another elem, then delete elem failed`() {
         // arrange
@@ -248,7 +243,23 @@ class IntOpenAddressingHashTableTest {
         )
     }
 
-    // put key after delete
+    @Test
+    fun `In table elem put after delete, then elem add in same place`() {
+        // arrange
+        val table = IntOpenAddressingHashTableImpl<String>(75, 4)
+        val key = 0
+        table.put(key, "0")
+        table.delete(key)
+
+        // act
+        table.put(key, "1")
+
+        // assert
+        Assertions.assertIterableEquals(
+            listOf(Pair(key, "1"), null, null, null),
+            table.getList()
+        )
+    }
 
     @Test
     fun `Fill table to fillFactor, then table increases`() {
