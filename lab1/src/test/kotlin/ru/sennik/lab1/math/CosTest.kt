@@ -16,16 +16,6 @@ class CosTest {
     private val defaultAccuracy = 0.001
 
     @ParameterizedTest
-    @MethodSource("accuracyTestMethodSource")
-    fun checkAllowedAccuracy(accuracy: Double, success: Boolean) {
-        if (success) {
-            assertDoesNotThrow { cos(1.0, accuracy) }
-        } else {
-            assertThrows<RuntimeException> { cos(1.0, accuracy) }
-        }
-    }
-
-    @ParameterizedTest
     @ValueSource(doubles = [
         0.0,
         1.0, PI / 3,
@@ -44,13 +34,24 @@ class CosTest {
             defaultAccuracy
         )
     }
+
+    @ParameterizedTest
+    @MethodSource("accuracyTestMethodSource")
+    fun checkAllowedAccuracy(accuracy: Double, success: Boolean) {
+        if (success) {
+            assertDoesNotThrow { cos(1.0, accuracy) }
+        } else {
+            assertThrows<RuntimeException> { cos(1.0, accuracy) }
+        }
+    }
+
    companion object {
        @JvmStatic
        fun accuracyTestMethodSource() = listOf(
            Arguments.of(1, true),
            Arguments.of(0.00001, true),
            Arguments.of(0, false),
-           Arguments.of(1.0001, false)
+           Arguments.of(1.00001, false)
        )
    }
 }
