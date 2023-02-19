@@ -18,13 +18,13 @@ class CosTest {
     @ParameterizedTest
     @ValueSource(doubles = [
         0.0,
-        1.0, PI / 3,
+        PI / 6, PI / 3,
         PI / 2,
-        2 * PI / 3, 3.0,
+        2 * PI / 3, 5 * PI / 6,
         PI,
-        4.0, 4 * PI / 3,
+        7 * PI / 6, 4 * PI / 3,
         3 * PI / 2,
-        5 * PI / 3, 6.0,
+        5 * PI / 3, 11 * PI / 6,
         2 * PI,
     ])
     fun checkFunction(value: Double) {
@@ -48,10 +48,10 @@ class CosTest {
    companion object {
        @JvmStatic
        fun accuracyTestMethodSource() = listOf(
-           Arguments.of(1, true),
+           Arguments.of(0.99999, true),
            Arguments.of(0.00001, true),
            Arguments.of(0, false),
-           Arguments.of(1.00001, false)
+           Arguments.of(1.0, false)
        )
    }
 }
