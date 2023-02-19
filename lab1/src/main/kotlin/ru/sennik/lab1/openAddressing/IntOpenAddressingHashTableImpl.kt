@@ -1,6 +1,10 @@
 package ru.sennik.lab1.openAddressing
 
-/**
+/** Реализация Хэш-таблицы
+ * @param fillFactor - коэффициент заполнения таблицы, по его достижении внутренняя память увлечивается вдвое.
+ * Может быть между 0 и 100б рекомендуется значение, близкое к 75
+ * @param initialSize - начальная вместимость таблицы. Должна быть больше 1,
+ * и так соотносится с коэффициентом заполнения, что можно добавить один элемент, не увеличивая прежде таблицу
  * @author Natalia Nikonova
  */
 class IntOpenAddressingHashTableImpl<T>(
@@ -13,7 +17,7 @@ class IntOpenAddressingHashTableImpl<T>(
          throw IllegalArgumentException("fillFactor is percent and must be between 0 and 100")
       }
       if (initialSize.toDouble() / 100 * fillFactor < 1) {
-         throw IllegalArgumentException("fillFactor if initialSize must be minimum 1")
+         throw IllegalArgumentException("fillFactor of initialSize must be minimum 1")
       }
    }
 
@@ -42,7 +46,7 @@ class IntOpenAddressingHashTableImpl<T>(
          val index = findAcceptableCell(key, true) { it?.first == key }
          table[index] = null
          fullCount -= 1
-      } catch (ex: InternalException) {
+      } catch (ex: NotFoundException) {
          throw NotFoundKeyException(key)
       }
    }
@@ -51,12 +55,17 @@ class IntOpenAddressingHashTableImpl<T>(
       try {
          val index = findAcceptableCell(key, true) { it?.first == key }
          return table[index]!!.second
-      } catch (ex: InternalException) {
+      } catch (ex: NotFoundException) {
          throw NotFoundKeyException(key)
       }
    }
 
-   override fun getList(): List<Pair<Int, T>?> {
+   /**
+    * Метод для тестирования модуля. Возвращает текущее состояние внутренней памяти структуры.
+    * Null значение означает что ячейка свободна
+    * @return - список с хранимыми значениями
+    */
+   internal fun getList(): List<Pair<Int, T>?> {
       return table
    }
 

@@ -3,7 +3,6 @@ package ru.sennik.lab1.openAddressing
 /** Хэш-таблица, ключем может выступать Int,
  * значением - объект класса, которым параметризован экземпляр таблицы.
  * Поддерживает операции put, delete и get.
- * Также есть метод getList для тестирования модуля.
  * Позволяет повторы ключей. Не синхронизирована
  *
  * @author Natalia Nikonova
@@ -30,11 +29,4 @@ interface IntOpenAddressingHashTable<T> {
     * @throws NotFoundKeyException - если ключ не найден
     */
    fun get(key: Int): T
-
-   /**
-    * Возвращает текущее состояние внутренней памяти структуры.
-    * Null значение означает что ячейка свободна
-    * @return - список с хранимыми значениями
-    */
-   fun getList(): List<Pair<Int, T>?>
 }
