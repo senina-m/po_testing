@@ -1,6 +1,6 @@
 package ru.sennik.lab1.story
 
-class Program (var name: String, private var type: KindOfProgram) : Playable{
+class Program (private var name: String, private var type: KindOfProgram) : Playable{
     override fun play(){
         print("${this.name}: ")
         val numWords = (0..10).random()

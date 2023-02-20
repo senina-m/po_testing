@@ -1,6 +1,6 @@
 package ru.sennik.lab1.story
 
-class Human (var name: String){
+class Human (private var name: String){
     private var objectsToNotifyMove = mutableSetOf<ObjectToNotifyMove>()
 
     fun move(){
