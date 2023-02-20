@@ -1,7 +1,6 @@
 package ru.sennik.lab1.story
 
-class Human constructor(name: String){
-    var name : String = ""
+class Human (var name: String){
     private var objectsToNotifyMove = mutableSetOf<ObjectToNotifyMove>()
 
     fun move(){
@@ -14,5 +13,9 @@ class Human constructor(name: String){
 
     fun unsubscribeFromNotifyMove(obj: ObjectToNotifyMove){
         objectsToNotifyMove.remove(obj)
+    }
+
+    override fun toString(): String {
+        return "Human('$name')"
     }
 }
