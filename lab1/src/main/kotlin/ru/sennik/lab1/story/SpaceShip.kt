@@ -1,5 +1,7 @@
 package ru.sennik.lab1.story
 
+import java.lang.RuntimeException
+
 data class SpaceShip (var name: String, var destinationPoint: String){
     var passangers = mutableSetOf<Human>()
     private var radio : Radio = Radio()
@@ -13,7 +15,7 @@ data class SpaceShip (var name: String, var destinationPoint: String){
     }
 
     fun startListenRadio(human: Human){
-        if(!passangers.contains(human)) print("No $human on a board of ${this.name}")
+        if(!passangers.contains(human)) throw RuntimeException("No $human on a board of ${this.name}")
         human.addObjectToNotifyMove(this.radio)
     }
 
