@@ -1,28 +1,32 @@
 package ru.sennik.lab1.story
 
-import java.lang.RuntimeException
+import kotlin.RuntimeException
 
-data class SpaceShip (var name: String, var destinationPoint: String){
-    private var passengers = mutableSetOf<Human>()
-    private var radio : Radio = Radio()
+class SpaceShip (var name: String, var destinationPoint: String) {
+    private val passengers = mutableSetOf<Human>()
+    private val radio = Radio()
 
     fun addPerson(person: Human){
-        if(!passengers.contains(person)) throw RuntimeException("$person is already on a board of ${this.name}")
-        passengers.add(person)
+        if (!passengers.add(person)) throw RuntimeException("$person is already on a board of $name")
     }
 
     fun removePerson(person: Human){
-        if(!passengers.contains(person)) throw RuntimeException("No $person on a board of ${this.name}")
+        if (!passengers.contains(person)) throw RuntimeException("No $person on a board of $name")
+        runCatching { person.unsubscribeFromNotifyMove(radio) }
         passengers.remove(person)
     }
 
+    fun getShipPassengers() = passengers.toSet()
+
     fun startListenRadio(human: Human){
-        if(!passengers.contains(human)) throw RuntimeException("No $human on a board of ${this.name}")
-        human.addObjectToNotifyMove(this.radio)
+        if (!passengers.contains(human)) throw RuntimeException("No $human on a board of $name")
+        human.addObjectToNotifyMove(radio)
     }
 
-    fun turnOfRadio(human: Human){
-        if(!passengers.contains(human)) throw RuntimeException("No $human on a board of ${this.name}")
-        human.unsubscribeFromNotifyMove(this.radio)
+    fun stopListenRadio(human: Human){
+        if (!passengers.contains(human)) throw RuntimeException("No $human on a board of $name")
+        runCatching { human.unsubscribeFromNotifyMove(radio) }.onFailure { throw RuntimeException("$human not listen radio") }
     }
+
+    internal fun getCurrentRadioProgram() = radio.getCurrentProgram()
 }

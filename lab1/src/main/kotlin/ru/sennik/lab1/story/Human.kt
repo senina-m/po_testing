@@ -1,21 +1,23 @@
 package ru.sennik.lab1.story
 
-class Human (private var name: String){
+class Human(private val name: String) {
     private var objectsToNotifyMove = mutableSetOf<ObjectToNotifyMove>()
 
     fun move(){
-        objectsToNotifyMove.forEach{obj -> obj.moveHappened()}
+        objectsToNotifyMove.forEach { obj -> obj.moveHappened() }
     }
 
     fun addObjectToNotifyMove(obj: ObjectToNotifyMove){
-        objectsToNotifyMove.add(obj)
+        if (!objectsToNotifyMove.add(obj)) throw RuntimeException("$this already notifies $obj")
     }
 
     fun unsubscribeFromNotifyMove(obj: ObjectToNotifyMove){
-        objectsToNotifyMove.remove(obj)
+        if (!objectsToNotifyMove.remove(obj)) throw RuntimeException("$this not notifies $obj")
     }
 
     override fun toString(): String {
-        return "Human('$name')"
+        return "Human(name=$name)"
     }
+
+    internal fun getObjectsToNotify() = objectsToNotifyMove.toSet()
 }
