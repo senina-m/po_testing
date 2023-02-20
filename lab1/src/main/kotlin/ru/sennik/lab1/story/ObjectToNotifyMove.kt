@@ -1,5 +1,5 @@
 package ru.sennik.lab1.story
 
-open class ObjectToNotifyMove {
-    fun moveHappend(){}
+interface ObjectToNotifyMove {
+    fun moveHappened()
 }
