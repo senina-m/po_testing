@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 import kotlin.math.PI
 
@@ -36,22 +34,14 @@ class CosTest {
     }
 
     @ParameterizedTest
-    @MethodSource("accuracyTestMethodSource")
-    fun checkAllowedAccuracy(accuracy: Double, success: Boolean) {
-        if (success) {
-            assertDoesNotThrow { cos(1.0, accuracy) }
-        } else {
-            assertThrows<RuntimeException> { cos(1.0, accuracy) }
-        }
+    @ValueSource(doubles = [0.00001, 0.99999])
+    fun checkAllowedAccuracy(accuracy: Double) {
+        assertDoesNotThrow { cos(1.0, accuracy) }
     }
 
-   companion object {
-       @JvmStatic
-       fun accuracyTestMethodSource() = listOf(
-           Arguments.of(0.99999, true),
-           Arguments.of(0.00001, true),
-           Arguments.of(0, false),
-           Arguments.of(1.0, false)
-       )
-   }
+    @ParameterizedTest
+    @ValueSource(doubles = [0.0, 1.0])
+    fun checkNotAllowedAccuracy(accuracy: Double) {
+        assertThrows<RuntimeException> { cos(1.0, accuracy) }
+    }
 }

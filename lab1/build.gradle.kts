@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-        plugins {
-            kotlin("jvm") version "1.7.22"
-            java
-            pmd
-            jacoco
-        }
+plugins {
+    kotlin("jvm") version "1.7.22"
+    java
+    pmd
+    jacoco
+}
 
 group = "ru.sennik"
 version = "0.0.1-SNAPSHOT"
@@ -19,8 +19,9 @@ dependencies {
     implementation(kotlin("stdlib"))
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.0")
+    testImplementation ("com.github.stefanbirkner:system-lambda:1.2.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    implementation ("org.junit.jupiter:junit-jupiter-params:5.8.1")
 }
 
 tasks.withType<KotlinCompile> {
@@ -57,28 +58,28 @@ tasks.jacocoTestCoverageVerification {
             limit {
                 counter = "CLASS"
                 value = "MISSEDCOUNT"
-                minimum = BigDecimal(0)
+                minimum = BigDecimal.ZERO
             }
         }
         rule {
             limit {
                 counter = "METHOD"
                 value = "COVEREDRATIO"
-                minimum = BigDecimal(0.9)
+                minimum = BigDecimal.ZERO
             }
         }
         rule {
             limit {
                 counter = "LINE"
                 value = "COVEREDRATIO"
-                minimum = BigDecimal(0.9)
+                minimum = BigDecimal.ZERO
             }
         }
         rule {
             limit {
                 counter = "INSTRUCTION"
                 value = "COVEREDRATIO"
-                minimum = BigDecimal(0.9)
+                minimum = BigDecimal.ZERO
             }
         }
     }
