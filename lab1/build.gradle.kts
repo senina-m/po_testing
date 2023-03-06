@@ -26,25 +26,16 @@ dependencies {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
     }
 }
 
 tasks.test {
     useJUnitPlatform()
-    dependsOn(tasks.pmdMain)
-    dependsOn(tasks.pmdTest)
     finalizedBy(tasks.jacocoTestReport)
     finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
-pmd {
-    isConsoleOutput = true
-    toolVersion = "6.21.0"
-    ruleSetFiles = files("config/pmd.xml") // Исключения только через внешний файл
-    ruleSets = mutableListOf<String>()
-}
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
@@ -58,28 +49,28 @@ tasks.jacocoTestCoverageVerification {
             limit {
                 counter = "CLASS"
                 value = "MISSEDCOUNT"
-                minimum = BigDecimal.ZERO
+                minimum = "0".toBigDecimal()
             }
         }
         rule {
             limit {
                 counter = "METHOD"
                 value = "COVEREDRATIO"
-                minimum = BigDecimal.ZERO
+                minimum = "0.9".toBigDecimal()
             }
         }
         rule {
             limit {
                 counter = "LINE"
                 value = "COVEREDRATIO"
-                minimum = BigDecimal.ZERO
+                minimum = "0.9".toBigDecimal()
             }
         }
         rule {
             limit {
                 counter = "INSTRUCTION"
                 value = "COVEREDRATIO"
-                minimum = BigDecimal.ZERO
+                minimum = "0.9".toBigDecimal()
             }
         }
     }
