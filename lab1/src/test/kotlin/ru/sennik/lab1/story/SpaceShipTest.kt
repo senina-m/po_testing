@@ -125,12 +125,23 @@ class SpaceShipTest {
         Assertions.assertThrows(
             RuntimeException::class.java,
             { ship.stopListenRadio(zafod) },
-            "No $zafod on a board of ${ship.name}"
+            "$zafod not listen radio"
         )
     }
 
     @Test
     fun `Person not on ship start listen radio is failed`() {
+        val zafod = Human("Зафод")
+
+        Assertions.assertThrows(
+            RuntimeException::class.java,
+            { ship.startListenRadio(zafod) },
+            "No $zafod on a board of ${ship.name}"
+        )
+    }
+
+    @Test
+    fun `Person not on ship stop listen radio is failed`() {
         val zafod = Human("Зафод")
 
         Assertions.assertThrows(
