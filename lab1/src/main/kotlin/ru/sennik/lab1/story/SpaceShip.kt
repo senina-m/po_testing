@@ -2,7 +2,7 @@ package ru.sennik.lab1.story
 
 import kotlin.RuntimeException
 
-class SpaceShip (var name: String, var destinationPoint: String) {
+class SpaceShip(val name: String, private var destinationPoint: String) {
     private val passengers = mutableSetOf<Human>()
     private val radio = Radio()
 
@@ -25,7 +25,8 @@ class SpaceShip (var name: String, var destinationPoint: String) {
 
     fun stopListenRadio(human: Human){
         if (!passengers.contains(human)) throw RuntimeException("No $human on a board of $name")
-        runCatching { human.unsubscribeFromNotifyMove(radio) }.onFailure { throw RuntimeException("$human not listen radio") }
+        runCatching { human.unsubscribeFromNotifyMove(radio) }
+            .onFailure { throw RuntimeException("$human not listen radio") }
     }
 
     internal fun getCurrentRadioProgram() = radio.getCurrentProgram()
