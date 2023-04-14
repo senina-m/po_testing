@@ -2,4 +2,6 @@ lab1/.gradle
 .vscode
 .idea
 lab1/build
+lab2/build
+lab2/.gradle
 gradle
