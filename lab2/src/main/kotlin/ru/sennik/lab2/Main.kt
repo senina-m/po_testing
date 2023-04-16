@@ -1,5 +1,5 @@
 package ru.sennik.lab2
-import ru.sennik.lab2.log.Ln
+import kotlin.math.*
 
 fun main() {
     val values = listOf(
@@ -9,11 +9,9 @@ fun main() {
         PI / 2,
         2 * PI / 3,
         5 * PI / 6,
-        PI,
         7 * PI / 6, 4 * PI / 3,
         3 * PI / 2,
         5 * PI / 3, 11 * PI / 6,
-        2 * PI,
     )
     for (value in values) {
         println("%.5f;%.5f".format(value, sin(value)))
