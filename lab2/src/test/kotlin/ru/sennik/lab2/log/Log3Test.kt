@@ -1,24 +1,22 @@
-package ru.sennik.lab2
+package ru.sennik.lab2.log
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import ru.sennik.lab2.log.Ln
-import ru.sennik.lab2.trigonom.Sin
-import kotlin.math.E
 
-class LnTest {
+class Log3Test {
     private val defaultAccuracy = 0.001
+    private val defaultLn = Ln()
 
     @ParameterizedTest
-    @ValueSource(doubles = [0.1, 0.2, 0.5, 0.7, 1.0, 1.5, 2.0, 10.0])
+    @ValueSource(doubles = [0.25, 0.53, 0.6, 0.7, 0.8, 0.9, 1.0, 1.6, 2.0, 5.0])
     fun checkFunction(value: Double) {
-        val log = Sin(value, defaultAccuracy)
+        val log = Log3(defaultLn)
         Assertions.assertEquals(
-            kotlin.math.log(value, E),
-            log.count(),
+            kotlin.math.log(value, 3.0),
+            log.count(value, defaultAccuracy),
             defaultAccuracy
         )
     }
@@ -26,14 +24,14 @@ class LnTest {
     @ParameterizedTest
     @ValueSource(doubles = [0.00001, 0.99999])
     fun checkAllowedAccuracy(accuracy: Double) {
-        val ln = Ln(1.0, accuracy)
-        assertDoesNotThrow { ln.count(x, accuracy) }
+        val ln = Log3(defaultLn)
+        assertDoesNotThrow { ln.count(1.0, accuracy) }
     }
 
     @ParameterizedTest
     @ValueSource(doubles = [0.0, 1.0])
     fun checkNotAllowedAccuracy(accuracy: Double) {
-        val ln = Ln(1.0, accuracy)
-        assertThrows<RuntimeException> { ln.count(x, accuracy) }
+        val ln = Log3(defaultLn)
+        assertThrows<RuntimeException> { ln.count(1.0, accuracy) }
     }
 }

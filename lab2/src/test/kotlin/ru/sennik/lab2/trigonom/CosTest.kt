@@ -1,4 +1,4 @@
-package ru.sennik.lab2
+package ru.sennik.lab2.trigonom
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.assertDoesNotThrow
