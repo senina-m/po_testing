@@ -5,8 +5,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import ru.sennik.lab2.log.Ln
-import ru.sennik.lab2.trigonom.Sin
+import ru.sennik.lab2.exception.NotValidAccuracyException
 import kotlin.math.E
 
 class LnTest {
@@ -34,6 +33,6 @@ class LnTest {
     @ValueSource(doubles = [0.0, 1.0])
     fun checkNotAllowedAccuracy(accuracy: Double) {
         val ln = Ln()
-        assertThrows<RuntimeException> { ln.count(1.0, accuracy) }
+        assertThrows<NotValidAccuracyException> { ln.count(1.0, accuracy) }
     }
 }

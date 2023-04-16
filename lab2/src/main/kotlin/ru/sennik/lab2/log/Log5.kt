@@ -4,6 +4,6 @@ import ru.sennik.lab2.Formula
 
 class Log5(private var ln: Ln) : Formula {
     override fun count(x: Double, accuracy: Double): Double {
-        return ln.count(x, accuracy)/ln.count(5.0, accuracy);
+        return ln.count(x, accuracy) / ln.count(5.0, accuracy)
     }
 }

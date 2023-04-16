@@ -1,20 +1,22 @@
 package ru.sennik.lab2.log
 
 import ru.sennik.lab2.Formula
+import ru.sennik.lab2.exception.FunctionNotExistsException
+import ru.sennik.lab2.exception.NotValidAccuracyException
 import java.math.BigDecimal
 
 class Ln() : Formula {
     override fun count(x: Double, accuracy: Double): Double {
         if (accuracy >= 1 || accuracy <= 0) {
-            throw RuntimeException("Accuracy has to be from 0 to 1!")
+            throw NotValidAccuracyException(accuracy)
         }
 
         if (x <= 0) {
-            throw RuntimeException("x has to be from 0, but it is $x!")
-        }else {
+            throw FunctionNotExistsException(x, "ln")
+        } else {
             return if (x <= 0.59){
                 nearZero(x, accuracy)
-            }else{
+            } else {
                 notNearZero(x, accuracy)
             }
         }
@@ -34,7 +36,7 @@ class Ln() : Formula {
             lnX += summand
             k++
         }
-        return 2*lnX.toDouble()
+        return 2 * lnX.toDouble()
     }
 
     private fun nearZero(x:Double, accuracy: Double): Double{
