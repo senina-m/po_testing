@@ -15,46 +15,48 @@ import kotlin.math.PI
 /**
  * @author Natalia Nikonova
  */
-class CscTest {
+class TanTest {
    private val defaultAccuracy = 0.01
-   private val defaultSin = getMockFunction<Sin>(filename)
+   private val defaultSin = getMockFunction<Sin>(sinFilename)
+   private val defaultCos = getMockFunction<Cos>(cosFilename)
 
    @ParameterizedTest
-   @MethodSource("cscValuesMethodSource")
+   @MethodSource("tanValuesMethodSource")
    fun checkFunctionExist(value: Double) {
-      val csc = Csc(defaultSin)
+      val tan = Tan(defaultSin, defaultCos)
       Assertions.assertEquals(
-         1 / kotlin.math.sin(value),
-         csc.count(value, defaultAccuracy),
+         kotlin.math.tan(value),
+         tan.count(value, defaultAccuracy),
          defaultAccuracy
       )
    }
 
    @ParameterizedTest
-   @ValueSource(doubles = [0.0, PI, 2 * PI])
+   @ValueSource(doubles = [-PI / 2, PI / 2])
    fun checkFunctionNotExist(value: Double) {
-      val csc = Csc(defaultSin)
-      assertThrows<FunctionNotExistsException> { csc.count(value, defaultAccuracy) }
+      val tan = Tan(defaultSin, defaultCos)
+      assertThrows<FunctionNotExistsException> { tan.count(value, defaultAccuracy) }
    }
 
    @ParameterizedTest
    @ValueSource(doubles = [0.00001, 0.99999])
    fun checkAllowedAccuracy(accuracy: Double) {
-      val csc = Csc(defaultSin)
-      assertDoesNotThrow { csc.count(1.0, accuracy) }
+      val tan = Tan(defaultSin, defaultCos)
+      assertDoesNotThrow { tan.count(1.0, accuracy) }
    }
 
    @ParameterizedTest
    @ValueSource(doubles = [0.0, 1.0])
    fun checkNotAllowedAccuracy(accuracy: Double) {
-      val csc = Csc(defaultSin)
-      assertThrows<NotValidAccuracyException> { csc.count(1.0, accuracy) }
+      val tan = Tan(defaultSin, defaultCos)
+      assertThrows<NotValidAccuracyException> { tan.count(1.0, accuracy) }
    }
 
    companion object {
-      private const val filename = "sin_to_csc.csv"
+      private const val sinFilename = "sin_to_tan.csv"
+      private const val cosFilename = "cos_to_tan.csv"
 
       @JvmStatic
-      fun cscValuesMethodSource() = getValues(filename)
+      fun tanValuesMethodSource() = getValues(sinFilename)
    }
 }

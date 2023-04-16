@@ -15,46 +15,48 @@ import kotlin.math.PI
 /**
  * @author Natalia Nikonova
  */
-class CscTest {
+class CotTest {
    private val defaultAccuracy = 0.01
-   private val defaultSin = getMockFunction<Sin>(filename)
+   private val defaultSin = getMockFunction<Sin>(sinFilename)
+   private val defaultCos = getMockFunction<Cos>(cosFilename)
 
    @ParameterizedTest
-   @MethodSource("cscValuesMethodSource")
+   @MethodSource("cotValuesMethodSource")
    fun checkFunctionExist(value: Double) {
-      val csc = Csc(defaultSin)
+      val cot = Cot(defaultSin, defaultCos)
       Assertions.assertEquals(
-         1 / kotlin.math.sin(value),
-         csc.count(value, defaultAccuracy),
+         1 / kotlin.math.tan(value),
+         cot.count(value, defaultAccuracy),
          defaultAccuracy
       )
    }
 
    @ParameterizedTest
-   @ValueSource(doubles = [0.0, PI, 2 * PI])
+   @ValueSource(doubles = [0.0, PI])
    fun checkFunctionNotExist(value: Double) {
-      val csc = Csc(defaultSin)
-      assertThrows<FunctionNotExistsException> { csc.count(value, defaultAccuracy) }
+      val cot = Cot(defaultSin, defaultCos)
+      assertThrows<FunctionNotExistsException> { cot.count(value, defaultAccuracy) }
    }
 
    @ParameterizedTest
    @ValueSource(doubles = [0.00001, 0.99999])
    fun checkAllowedAccuracy(accuracy: Double) {
-      val csc = Csc(defaultSin)
-      assertDoesNotThrow { csc.count(1.0, accuracy) }
+      val cot = Cot(defaultSin, defaultCos)
+      assertDoesNotThrow { cot.count(1.0, accuracy) }
    }
 
    @ParameterizedTest
    @ValueSource(doubles = [0.0, 1.0])
    fun checkNotAllowedAccuracy(accuracy: Double) {
-      val csc = Csc(defaultSin)
-      assertThrows<NotValidAccuracyException> { csc.count(1.0, accuracy) }
+      val cot = Cot(defaultSin, defaultCos)
+      assertThrows<NotValidAccuracyException> { cot.count(1.0, accuracy) }
    }
 
    companion object {
-      private const val filename = "sin_to_csc.csv"
+      private const val sinFilename = "sin_to_cot.csv"
+      private const val cosFilename = "cos_to_cot.csv"
 
       @JvmStatic
-      fun cscValuesMethodSource() = getValues(filename)
+      fun cotValuesMethodSource() = getValues(sinFilename)
    }
 }
