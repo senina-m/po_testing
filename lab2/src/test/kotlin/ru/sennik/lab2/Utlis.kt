@@ -6,7 +6,6 @@ import org.mockito.ArgumentMatchers.anyDouble
 import org.mockito.ArgumentMatchers.doubleThat
 import org.mockito.Mockito
 import java.io.File
-import kotlin.math.PI
 
 /**
  * @author Natalia Nikonova
