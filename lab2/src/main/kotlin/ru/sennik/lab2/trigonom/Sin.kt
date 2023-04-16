@@ -27,7 +27,6 @@ class Sin : Formula {
             }
             k++
         }
-
         return sinX.toDouble()
     }
 }

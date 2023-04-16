@@ -6,8 +6,4 @@ class Log3(private var ln: Ln) : Formula {
     override fun count(x: Double, accuracy: Double): Double {
         return ln.count(x, accuracy) / ln.count(3.0, accuracy)
     }
-
-    override fun toCSV(): Double {
-        TODO("Not yet implemented")
-    }
 }
