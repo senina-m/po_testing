@@ -1,9 +1,10 @@
-package ru.sennik.lab2
+package ru.sennik.lab2.trigonom
 
+import ru.sennik.lab2.Formula
 import java.math.BigDecimal
 
-class Sin (private var x: Double, private var  accuracy: Double) : Formula {
-    override fun count():Double {
+class Sin () : Formula {
+    override fun count(x: Double, accuracy: Double): Double {
         if (accuracy >= 1 || accuracy <= 0) {
             throw RuntimeException("Accuracy has to be from 0 to 1!")
         }
@@ -27,5 +28,9 @@ class Sin (private var x: Double, private var  accuracy: Double) : Formula {
         }
 
         return sinX.toDouble()
+    }
+
+    override fun toCSV(): Double {
+        TODO("Not yet implemented")
     }
 }

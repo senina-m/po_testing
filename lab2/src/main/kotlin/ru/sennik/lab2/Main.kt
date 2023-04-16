@@ -1,6 +1,10 @@
 package ru.sennik.lab2
-import kotlin.math.E
-fun main(){
-    val ln = Log(E, 0.01)
-    ln.count()
+import ru.sennik.lab2.log.Ln
+import kotlin.math.*
+
+fun main() {
+    val value = 2.1
+    val ln = Ln()
+    println(ln.count(value, 0.001))
+    println(ln(value))
 }

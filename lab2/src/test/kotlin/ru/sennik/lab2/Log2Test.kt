@@ -5,33 +5,21 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import ru.sennik.lab2.trigonom.Cos
+import ru.sennik.lab2.log.Ln
 import ru.sennik.lab2.trigonom.Sin
+import kotlin.math.E
 
-import kotlin.math.PI
-class CosTest {
+class LogTest {
     private val defaultAccuracy = 0.001
-    private val defaultSin = Sin()
+    private val defaultBase = 2
 
     @ParameterizedTest
-    @ValueSource(doubles = [
-        0.0,
-        PI / 6,
-        PI / 3,
-        PI / 2,
-        2 * PI / 3,
-        5 * PI / 6,
-        PI,
-        7 * PI / 6, 4 * PI / 3,
-        3 * PI / 2,
-        5 * PI / 3, 11 * PI / 6,
-        2 * PI,
-    ])
+    @ValueSource(doubles = [0.1, 0.2, 0.5, 0.7, 1.0, 1.5, 2.0, 10.0])
     fun checkFunction(value: Double) {
-        val cos = Cos(defaultSin)
+        val log = Sin(value, defaultAccuracy)
         Assertions.assertEquals(
-            kotlin.math.cos(value),
-            cos.count(value, defaultAccuracy),
+            kotlin.math.log(value, E),
+            log.count(),
             defaultAccuracy
         )
     }
@@ -39,14 +27,21 @@ class CosTest {
     @ParameterizedTest
     @ValueSource(doubles = [0.00001, 0.99999])
     fun checkAllowedAccuracy(accuracy: Double) {
-        val cos = Cos(defaultSin)
-        assertDoesNotThrow { cos.count(1.0, accuracy) }
+        val ln = Ln(1.0, accuracy)
+        assertDoesNotThrow { ln.count(x, accuracy) }
     }
 
     @ParameterizedTest
     @ValueSource(doubles = [0.0, 1.0])
     fun checkNotAllowedAccuracy(accuracy: Double) {
-        val cos = Cos(defaultSin)
-        assertThrows<RuntimeException> { cos.count(1.0, accuracy) }
+        val ln = Ln(1.0, accuracy)
+        assertThrows<RuntimeException> { ln.count(x, accuracy) }
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = [0.5, 0.8, 2.0, 4.0, 10.0])
+    fun checkBase(accuracy: Double) {
+        val ln = Ln(1.0, accuracy)
+        assertThrows<RuntimeException> { ln.count(x, accuracy) }
     }
 }
