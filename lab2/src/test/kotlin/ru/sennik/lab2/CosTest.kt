@@ -1,4 +1,4 @@
 package ru.sennik.lab2
 
-class LogN {
+class CosTest {
 }
