@@ -6,7 +6,7 @@ import ru.sennik.lab2.exception.FunctionNotExistsException
 /**
  * @author Natalia Nikonova
  */
-class Csc(
+open class Csc(
    private val sin: Sin
 ) : Formula {
    override fun count(x: Double, accuracy: Double): Double {

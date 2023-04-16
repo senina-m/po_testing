@@ -4,7 +4,7 @@ import ru.sennik.lab2.Formula
 import ru.sennik.lab2.exception.NotValidAccuracyException
 import java.math.BigDecimal
 
-class Sin : Formula {
+open class Sin : Formula {
     override fun count(x: Double, accuracy: Double): Double {
         if (accuracy >= 1 || accuracy <= 0) {
             throw NotValidAccuracyException(accuracy)

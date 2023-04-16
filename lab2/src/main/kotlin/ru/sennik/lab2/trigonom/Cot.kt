@@ -6,7 +6,7 @@ import ru.sennik.lab2.exception.FunctionNotExistsException
 /**
  * @author Natalia Nikonova
  */
-class Cot(
+open class Cot(
    private val sin: Sin,
    private val cos: Cos
 ) : Formula {
