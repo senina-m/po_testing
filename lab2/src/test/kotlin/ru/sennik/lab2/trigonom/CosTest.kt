@@ -10,7 +10,6 @@ import ru.sennik.lab2.exception.NotValidAccuracyException
 import ru.sennik.lab2.getMockFunction
 import ru.sennik.lab2.getValues
 
-import kotlin.math.PI
 class CosTest {
     private val defaultAccuracy = 0.01
     private val defaultSin = getMockFunction<Sin>(filename)
@@ -33,12 +32,12 @@ class CosTest {
         assertDoesNotThrow { cos.count(1.0, accuracy) }
     }
 
-    /*@ParameterizedTest
+    @ParameterizedTest
     @ValueSource(doubles = [0.0, 1.0])
     fun checkNotAllowedAccuracy(accuracy: Double) {
         val cos = Cos(defaultSin)
         assertThrows<NotValidAccuracyException> { cos.count(1.0, accuracy) }
-    } логично что не падает - до проверки то не доходим*/
+    }
 
     companion object {
         private const val filename = "sin_to_cos.csv"

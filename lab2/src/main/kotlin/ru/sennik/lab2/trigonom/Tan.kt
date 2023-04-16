@@ -11,8 +11,9 @@ open class Tan(
    private val cos: Cos
 ) : Formula {
    override fun count(x: Double, accuracy: Double): Double {
-      val cosVal = cos.count(x, accuracy)
+      super.count(x, accuracy)
+      val cosVal = cos.count(x, accuracy * 0.1)
       if (cosVal == 0.0) { throw FunctionNotExistsException(x, "tan") }
-      return sin.count(x, accuracy) / cosVal
+      return sin.count(x, accuracy * 0.1) / cosVal
    }
 }

@@ -8,6 +8,7 @@ open class Cos(
     private val sin: Sin
 ) : Formula {
     override fun count(x: Double, accuracy: Double): Double {
+        super.count(x, accuracy)
         return sin.count(PI / 2 + x, accuracy)
     }
 }

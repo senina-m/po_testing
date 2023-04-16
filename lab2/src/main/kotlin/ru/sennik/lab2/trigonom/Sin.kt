@@ -10,7 +10,7 @@ open class Sin : Formula {
             throw NotValidAccuracyException(accuracy)
         }
         var xm = BigDecimal(x)
-        val acc = BigDecimal(accuracy * 0.1)
+        val acc = BigDecimal(accuracy)
         var sinX = BigDecimal(x)
         var k = 1
         var factorial = BigDecimal.ONE

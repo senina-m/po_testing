@@ -10,7 +10,8 @@ open class Csc(
    private val sin: Sin
 ) : Formula {
    override fun count(x: Double, accuracy: Double): Double {
-      val sinVal = sin.count(x, accuracy)
+      super.count(x, accuracy)
+      val sinVal = sin.count(x, accuracy * 0.1)
       if (sinVal == 0.0) { throw FunctionNotExistsException(x, "csc") }
       return 1 / sinVal
    }

@@ -11,8 +11,9 @@ open class Cot(
    private val cos: Cos
 ) : Formula {
    override fun count(x: Double, accuracy: Double): Double {
-      val sinVal = sin.count(x, accuracy)
-      if (sinVal == 0.0) { throw FunctionNotExistsException(x, "tan") }
-      return cos.count(x, accuracy) / sinVal
+      super.count(x, accuracy)
+      val sinVal = sin.count(x, accuracy * 0.1)
+      if (sinVal == 0.0) { throw FunctionNotExistsException(x, "cot") }
+      return cos.count(x, accuracy * 0.1) / sinVal
    }
 }
