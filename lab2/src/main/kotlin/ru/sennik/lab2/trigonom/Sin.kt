@@ -26,11 +26,6 @@ class Sin () : Formula {
             }
             k++
         }
-
         return sinX.toDouble()
-    }
-
-    override fun toCSV(): Double {
-        TODO("Not yet implemented")
     }
 }

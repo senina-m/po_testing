@@ -54,9 +54,4 @@ class Ln() : Formula {
         }
         return lnX.toDouble()
     }
-
-
-    override fun toCSV(): Double {
-        TODO("Not yet implemented")
-    }
 }
