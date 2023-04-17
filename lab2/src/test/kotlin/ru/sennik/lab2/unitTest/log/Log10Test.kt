@@ -5,6 +5,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import ru.sennik.lab2.exception.FunctionNotExistsException
 import ru.sennik.lab2.exception.NotValidAccuracyException
 import ru.sennik.lab2.log.Ln
 import ru.sennik.lab2.log.Log10
@@ -22,6 +23,13 @@ class Log10Test {
             log.count(value, defaultAccuracy),
             defaultAccuracy
         )
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = [0.0, -1.0])
+    fun checkNotExistFunction(x: Double) {
+        val log = Log10(defaultLn)
+        assertThrows<FunctionNotExistsException> { log.count(x, defaultAccuracy) }
     }
 
     @ParameterizedTest

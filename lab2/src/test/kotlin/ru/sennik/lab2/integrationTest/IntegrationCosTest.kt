@@ -66,8 +66,6 @@ class IntegrationCosTest : BaseIntegrationTest() {
       @JvmStatic
       private val defaultSin = getMockTrigFunction<Sin>(sinFilename)
       @JvmStatic
-      private val defaultCos = getMockTrigFunction<Cos>(cosFilename)
-      @JvmStatic
       private val defaultCsc = getMockTrigFunction<Csc>(cscFilename)
       @JvmStatic
       private val defaultTan = getMockTrigFunction<Tan>(tanFilename)
