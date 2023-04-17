@@ -15,7 +15,7 @@ class DoubleRangeTwoPiRoundMatcher(private val example: Double) : ArgumentMatche
     override fun matches(argument: Double?): Boolean {
         if (argument == null) return false
         val normArgument = argument % (PI * 2)
-        return (example - 0.05 <= normArgument) && (normArgument <= example + 0.05)
+        return (example - 0.01 <= normArgument) && (normArgument <= example + 0.01)
     }
 
 }
@@ -23,7 +23,7 @@ class DoubleRangeTwoPiRoundMatcher(private val example: Double) : ArgumentMatche
 class DoubleRangeMatcher(private val example: Double) : ArgumentMatcher<Double> {
     override fun matches(argument: Double?): Boolean {
         if (argument == null) return false
-        return (example - 0.05 <= argument) && (argument <= example + 0.05)
+        return (example - 0.01 <= argument) && (argument <= example + 0.01)
     }
 
 }
