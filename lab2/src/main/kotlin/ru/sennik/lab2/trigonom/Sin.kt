@@ -28,7 +28,6 @@ open class Sin : Formula {
                 sinX -= summand
             }
             k++
-            println("$k xm=${xm.toDouble()} f=${factorial.toDouble()} sum=${summand.toDouble()}")
         }
         return sinX.toDouble()
     }
