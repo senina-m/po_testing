@@ -45,14 +45,14 @@ class CotTest {
    @ValueSource(doubles = [0.00001, 0.99999])
    fun checkAllowedAccuracy(accuracy: Double) {
       val cot = Cot(defaultSin, defaultCos)
-      assertDoesNotThrow { cot.count(1.0, accuracy) }
+      assertDoesNotThrow { cot.count(PI / 2, accuracy) }
    }
 
    @ParameterizedTest
    @ValueSource(doubles = [0.0, 1.0])
    fun checkNotAllowedAccuracy(accuracy: Double) {
       val cot = Cot(defaultSin, defaultCos)
-      assertThrows<NotValidAccuracyException> { cot.count(1.0, accuracy) }
+      assertThrows<NotValidAccuracyException> { cot.count(PI / 2, accuracy) }
    }
 
    companion object {

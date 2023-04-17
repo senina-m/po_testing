@@ -12,7 +12,8 @@ open class Csc(
    override fun count(x: Double, accuracy: Double): Double {
       super.count(x, accuracy)
       val sinVal = sin.count(x, accuracy * 0.1)
-      if (sinVal == 0.0) { throw FunctionNotExistsException(x, "csc") }
+      val delta = 0.0000000001
+      if (sinVal >= -delta && sinVal <= delta) { throw FunctionNotExistsException(x, "csc") }
       return 1 / sinVal
    }
 }

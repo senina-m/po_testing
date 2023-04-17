@@ -43,14 +43,14 @@ class CscTest {
    @ValueSource(doubles = [0.00001, 0.99999])
    fun checkAllowedAccuracy(accuracy: Double) {
       val csc = Csc(defaultSin)
-      assertDoesNotThrow { csc.count(1.0, accuracy) }
+      assertDoesNotThrow { csc.count(PI / 2, accuracy) }
    }
 
    @ParameterizedTest
    @ValueSource(doubles = [0.0, 1.0])
    fun checkNotAllowedAccuracy(accuracy: Double) {
       val csc = Csc(defaultSin)
-      assertThrows<NotValidAccuracyException> { csc.count(1.0, accuracy) }
+      assertThrows<NotValidAccuracyException> { csc.count(PI / 2, accuracy) }
    }
 
    companion object {

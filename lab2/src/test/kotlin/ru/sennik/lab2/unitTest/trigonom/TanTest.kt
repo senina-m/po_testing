@@ -45,14 +45,14 @@ class TanTest {
    @ValueSource(doubles = [0.00001, 0.99999])
    fun checkAllowedAccuracy(accuracy: Double) {
       val tan = Tan(defaultSin, defaultCos)
-      assertDoesNotThrow { tan.count(1.0, accuracy) }
+      assertDoesNotThrow { tan.count(0.0, accuracy) }
    }
 
    @ParameterizedTest
    @ValueSource(doubles = [0.0, 1.0])
    fun checkNotAllowedAccuracy(accuracy: Double) {
       val tan = Tan(defaultSin, defaultCos)
-      assertThrows<NotValidAccuracyException> { tan.count(1.0, accuracy) }
+      assertThrows<NotValidAccuracyException> { tan.count(0.0, accuracy) }
    }
 
    companion object {
