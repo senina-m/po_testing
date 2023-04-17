@@ -1,4 +1,4 @@
-package ru.sennik.lab2.log
+package ru.sennik.lab2.unitTest.log
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -6,6 +6,8 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import ru.sennik.lab2.exception.NotValidAccuracyException
+import ru.sennik.lab2.log.Ln
+import ru.sennik.lab2.log.Log10
 
 class Log10Test {
     private val defaultAccuracy = 0.001

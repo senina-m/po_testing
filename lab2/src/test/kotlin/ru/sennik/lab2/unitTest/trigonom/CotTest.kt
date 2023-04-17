@@ -1,4 +1,4 @@
-package ru.sennik.lab2.trigonom
+package ru.sennik.lab2.unitTest.trigonom
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -10,6 +10,9 @@ import ru.sennik.lab2.exception.FunctionNotExistsException
 import ru.sennik.lab2.exception.NotValidAccuracyException
 import ru.sennik.lab2.getMockTrigFunction
 import ru.sennik.lab2.getValues
+import ru.sennik.lab2.trigonom.Cos
+import ru.sennik.lab2.trigonom.Cot
+import ru.sennik.lab2.trigonom.Sin
 import kotlin.math.PI
 
 /**

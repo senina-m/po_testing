@@ -22,22 +22,22 @@ class DifficultFunction(
 ) : Formula {
    override fun count(x: Double, accuracy: Double): Double {
       super.count(x, accuracy)
+      val dAccuracy = accuracy * 0.0001
       val result: Double
       if (x <= 0) {
-         val cosVal = cos.count(x, accuracy)
+         val cosVal = cos.count(x, dAccuracy)
          if (cosVal == 0.0) {
             throw FunctionNotExistsException(x, "difficult fun")
          }
          try {
-            val cscVal = csc.count(x, accuracy)
-            val numerator = (cot.count(x, accuracy) - cscVal) * tan.count(x, accuracy) * cscVal - sin.count(x, accuracy)
+            val cscVal = csc.count(x, dAccuracy)
+            val numerator = (cot.count(x, dAccuracy) - cscVal) * tan.count(x, dAccuracy) * cscVal - sin.count(x, dAccuracy)
             result = numerator / (2 * cosVal)
          } catch (ex: FunctionNotExistsException) {
             throw FunctionNotExistsException(x, "difficult fun", ex)
          }
       } else {
          try {
-            val dAccuracy = accuracy * 0.01
             val log10Val = log10.count(x, dAccuracy)
             val log5Val = log5.count(x, dAccuracy)
             val reduced = ((log10Val * log3.count(x, dAccuracy) - log5Val) * log2.count(x, dAccuracy).pow(3)).pow(2)

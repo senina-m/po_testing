@@ -1,4 +1,4 @@
-package ru.sennik.lab2
+package ru.sennik.lab2.unitTest
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
@@ -10,8 +10,13 @@ import org.junit.jupiter.params.provider.ValueSource
 import org.mockito.ArgumentMatchers.anyDouble
 import org.mockito.ArgumentMatchers.doubleThat
 import org.mockito.Mockito
+import ru.sennik.lab2.DifficultFunction
+import ru.sennik.lab2.DoubleRangeTwoPiRoundMatcher
 import ru.sennik.lab2.exception.FunctionNotExistsException
 import ru.sennik.lab2.exception.NotValidAccuracyException
+import ru.sennik.lab2.getArgsAndValues
+import ru.sennik.lab2.getMockLogFunction
+import ru.sennik.lab2.getMockTrigFunction
 import ru.sennik.lab2.log.*
 import ru.sennik.lab2.trigonom.*
 import kotlin.math.PI
@@ -24,8 +29,10 @@ class DifficultFunctionTest {
     @ParameterizedTest
     @MethodSource("funValuesMethodSource")
     fun checkFunctionExist(x: Double, result: Double) {
-        val difFun = DifficultFunction(defaultSin, defaultCos, defaultCsc, defaultTan, defaultCot,
-            defaultLn, defaultLog2, defaultLog3, defaultLog5, defaultLog10)
+        val difFun = DifficultFunction(
+            defaultSin, defaultCos, defaultCsc, defaultTan, defaultCot,
+            defaultLn, defaultLog2, defaultLog3, defaultLog5, defaultLog10
+        )
         Assertions.assertEquals(
             result,
             difFun.count(x, defaultAccuracy),
@@ -36,24 +43,30 @@ class DifficultFunctionTest {
     @ParameterizedTest
     @ValueSource(doubles = [-PI * 2, -3 * PI / 2, -PI, -PI / 2, 0.0])
     fun checkFunctionNotExist(value: Double) {
-        val difFun = DifficultFunction(defaultSin, defaultCos, defaultCsc, defaultTan, defaultCot,
-            defaultLn, defaultLog2, defaultLog3, defaultLog5, defaultLog10)
+        val difFun = DifficultFunction(
+            defaultSin, defaultCos, defaultCsc, defaultTan, defaultCot,
+            defaultLn, defaultLog2, defaultLog3, defaultLog5, defaultLog10
+        )
         assertThrows<FunctionNotExistsException> { difFun.count(value, defaultAccuracy) }
     }
 
     @ParameterizedTest
     @ValueSource(doubles = [0.00001, 0.99999])
     fun checkAllowedAccuracy(accuracy: Double) {
-        val difFun = DifficultFunction(defaultSin, defaultCos, defaultCsc, defaultTan, defaultCot,
-            defaultLn, defaultLog2, defaultLog3, defaultLog5, defaultLog10)
+        val difFun = DifficultFunction(
+            defaultSin, defaultCos, defaultCsc, defaultTan, defaultCot,
+            defaultLn, defaultLog2, defaultLog3, defaultLog5, defaultLog10
+        )
         assertDoesNotThrow { difFun.count(1.0, accuracy) }
     }
 
     @ParameterizedTest
     @ValueSource(doubles = [0.0, 1.0])
     fun checkNotAllowedAccuracy(accuracy: Double) {
-        val difFun = DifficultFunction(defaultSin, defaultCos, defaultCsc, defaultTan, defaultCot,
-            defaultLn, defaultLog2, defaultLog3, defaultLog5, defaultLog10)
+        val difFun = DifficultFunction(
+            defaultSin, defaultCos, defaultCsc, defaultTan, defaultCot,
+            defaultLn, defaultLog2, defaultLog3, defaultLog5, defaultLog10
+        )
         assertThrows<NotValidAccuracyException> { difFun.count(1.0, accuracy) }
     }
 

@@ -3,7 +3,7 @@ import kotlin.math.*
 
 fun main() {
     val values = listOf(
-        /*//-2 * PI,
+        //-2 * PI,
         -11 * PI / 6,
         -5 * PI / 3,
         //- 3 * PI / 2,
@@ -18,8 +18,8 @@ fun main() {
         -3 * PI / 4,
         -2 * PI / 3,
         -PI / 3,
-        -PI / 6*/
-        0.5,
+        -PI / 6
+        /*0.5,
         0.7,
         1.0,
         1.2,
@@ -41,9 +41,9 @@ fun main() {
         4.75,
         5.0,
         6.0,
-        7.0
+        7.0*/
     )
     for (value in values) {
-        println("%.5f;%.5f".format(value, log(value, 10.0)))
+        println("%.5f;%.5f".format(value - PI / 2, sin(value - PI / 2)))
     }
 }
