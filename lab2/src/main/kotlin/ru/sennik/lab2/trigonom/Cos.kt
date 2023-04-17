@@ -8,7 +8,8 @@ open class Cos(
 ) : Formula {
     override fun count(x: Double, accuracy: Double): Double {
         super.count(x, accuracy)
-        println("sin arg: ${PI / 2 + x}")
-        return sin.count(PI / 2 + x, accuracy)
+        val r = sin.count((PI / 2 + x), accuracy)
+        println("cos($x) -> sin(${PI / 2 + x}) -> $r")
+        return  r
     }
 }

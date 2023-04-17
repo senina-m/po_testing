@@ -7,17 +7,17 @@ import java.math.BigDecimal
 open class Ln() : Formula {
     override fun count(x: Double, accuracy: Double): Double {
         super.count(x, accuracy)
-
         if (x <= 0) {
             throw FunctionNotExistsException(x, "ln")
         } else {
-            return if (x <= 0.59){
+            val r = if (x <= 0.59){
                 nearZero(x, accuracy)
             } else {
                 notNearZero(x, accuracy)
             }
+            println("$x -> $r")
+            return  r
         }
-
     }
 
     private fun notNearZero(x:Double, accuracy: Double): Double{

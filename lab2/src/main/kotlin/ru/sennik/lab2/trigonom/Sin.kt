@@ -12,12 +12,12 @@ open class Sin : Formula {
         }
         val realX = x % (PI * 2)
         var xm = BigDecimal(realX)
-        val acc = BigDecimal(accuracy)
+        val acc = BigDecimal(accuracy * 0.01)
         var sinX = BigDecimal(realX)
         var k = 1
         var factorial = BigDecimal.ONE
         var summand = BigDecimal.ONE
-        while (summand >= acc) {
+        while (summand >= acc || summand <= -acc) {
             factorial = factorial * BigDecimal(2*k+1) * BigDecimal(2*k)
             xm = xm * BigDecimal(realX) * BigDecimal(realX)
             summand = xm/factorial
@@ -28,6 +28,7 @@ open class Sin : Formula {
                 sinX -= summand
             }
             k++
+            println("$k xm=${xm.toDouble()} f=${factorial.toDouble()} sum=${summand.toDouble()}")
         }
         return sinX.toDouble()
     }

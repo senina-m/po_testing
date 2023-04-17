@@ -1,49 +1,23 @@
 package ru.sennik.lab2
-import kotlin.math.*
+import ru.sennik.lab2.trigonom.Sin
+import kotlin.math.PI
 
 fun main() {
-    val values = listOf(
-        //-2 * PI,
-        -11 * PI / 6,
-        -5 * PI / 3,
-        //- 3 * PI / 2,
-        -4 * PI / 3,
-        -5 * PI / 4,
-        -89 * PI / 72,
-        -7 * PI / 6,
-        -9 * PI / 8,
-        -5 * PI / 6,
-        -7 * PI / 8,
-        -55 * PI / 72,
-        -3 * PI / 4,
-        -2 * PI / 3,
-        -PI / 3,
-        -PI / 6
-        /*0.5,
-        0.7,
-        1.0,
-        1.2,
-        1.5,
-        1.7,
-        1.9,
-        2.0,
-        2.15,
-        2.3,
-        2.5,
-        2.6,
-        2.8,
-        3.0,
-        3.15,
-        3.5,
-        4.0,
-        4.3,
-        4.5,
-        4.75,
-        5.0,
-        6.0,
-        7.0*/
-    )
-    for (value in values) {
-        println("%.5f;%.5f".format(value - PI / 2, sin(value - PI / 2)))
-    }
+    val sin = Sin()
+    println(sin.count(0.5235963267948966, 0.001))
+    val x = -3.88336
+    val accuracy = 0.001
+    val r = sin.count(PI / 2 + x, accuracy)
+    println("$x -> sin(${PI / 2 + x}) -> $r")
 }
+//то, что в файле -3.88336;-0.73728 // -0.73727570572201318
+//-3.88336 -> sin(-2.3125636732051036) -> -0.70711
+//-3.88336 -> sin(-2.3125636732051036) -> -0.70711
+//-3.88336 -> sin(-2.3125636732051036) -> -0.70711
+
+//expected: <-1.90718> but was: <-2.0491081033282375>
+//Expected :-1.90718
+//Actual   :-2.0491081033282375
+
+//-0.78539;-0.70710
+//-0.82903;-0.73727
