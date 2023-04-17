@@ -15,7 +15,6 @@ open class Ln() : Formula {
             } else {
                 notNearZero(x, accuracy)
             }
-            println("$x -> $r")
             return  r
         }
     }

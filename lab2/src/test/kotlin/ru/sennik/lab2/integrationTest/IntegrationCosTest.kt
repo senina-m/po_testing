@@ -86,7 +86,6 @@ class IntegrationCosTest : BaseIntegrationTest() {
       @JvmStatic
       @BeforeAll
       fun setUpNotValidArg() {
-         println("start cos")
          Mockito.`when`(
             defaultCsc.count(
                ArgumentMatchers.doubleThat(DoubleRangeTwoPiRoundMatcher(-2 * PI)),

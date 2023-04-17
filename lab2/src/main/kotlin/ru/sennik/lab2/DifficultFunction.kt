@@ -26,7 +26,6 @@ class DifficultFunction(
       val result: Double
       if (x <= 0) {
          val cosVal = cos.count(x, dAccuracy)
-         println("cos: $cosVal")
          val delta = 0.0000000001
          if (cosVal >= -delta && cosVal <= delta) {
             throw FunctionNotExistsException(x, "difficult fun")

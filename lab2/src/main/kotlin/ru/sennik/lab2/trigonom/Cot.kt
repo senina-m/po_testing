@@ -15,7 +15,6 @@ open class Cot(
       super.count(x, accuracy)
       val sinVal = sin.count(x, accuracy * 0.1)
       val delta = 0.0000000001
-      println("x: $x, sinval $sinVal")
       if (sinVal >= -delta && sinVal <= delta) { throw FunctionNotExistsException(x, "cot") }
       return cos.count(x, accuracy * 0.1) / sinVal
    }
