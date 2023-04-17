@@ -32,24 +32,20 @@ inline fun <reified T:Formula> getMockFunction(filename: String): T {
     return mockT
 }
 
-/*inline fun <reified T:Formula> getMockFunction2(filename: String): T {
-    val mockT = Mockito.mock(T::class.java)
-    val list = mutableListOf<Pair<Double, Double>>()
-    File(filename).forEachLine { line ->
-        val data = line.split(";")
-        list.add(Pair(data[0].toDouble(), data[1].toDouble()))
-    }
-    Mockito.`when`(mockT.count(anyDouble(), anyDouble())).thenAnswer {
-        val x = it.arguments[0]
-    }
-    return mockT
-}*/
-
 fun getValues(filename: String): List<Arguments> {
     val result = mutableListOf<Arguments>()
     File(filename).forEachLine { line ->
         val data = line.split(";")
         result.add(Arguments.of(data[0].toDouble()))
+    }
+    return result
+}
+
+fun getArgsAndValues(filename: String): List<Arguments> {
+    val result = mutableListOf<Arguments>()
+    File(filename).forEachLine { line ->
+        val data = line.split(";")
+        result.add(Arguments.of(data[0].toDouble(), data[1].toDouble()))
     }
     return result
 }

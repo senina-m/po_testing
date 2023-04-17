@@ -5,7 +5,7 @@ import ru.sennik.lab2.exception.FunctionNotExistsException
 import ru.sennik.lab2.exception.NotValidAccuracyException
 import java.math.BigDecimal
 
-class Ln() : Formula {
+open class Ln() : Formula {
     override fun count(x: Double, accuracy: Double): Double {
         super.count(x, accuracy)
 
