@@ -20,6 +20,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.0")
     testImplementation ("com.github.stefanbirkner:system-lambda:1.2.0")
+    testImplementation("org.mockito:mockito-core:2.24.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 

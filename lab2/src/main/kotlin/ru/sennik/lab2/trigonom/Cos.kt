@@ -2,10 +2,13 @@ package ru.sennik.lab2.trigonom
 
 import ru.sennik.lab2.Formula
 import kotlin.math.PI
-class Cos(
+
+open class Cos(
     private val sin: Sin
 ) : Formula {
     override fun count(x: Double, accuracy: Double): Double {
-        return sin.count(PI / 2 + x, accuracy)
+        super.count(x, accuracy)
+        val r = sin.count((PI / 2 + x), accuracy)
+        return  r
     }
 }
