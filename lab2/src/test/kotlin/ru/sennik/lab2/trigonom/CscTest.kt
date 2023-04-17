@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 import ru.sennik.lab2.exception.FunctionNotExistsException
 import ru.sennik.lab2.exception.NotValidAccuracyException
-import ru.sennik.lab2.getMockFunction
+import ru.sennik.lab2.getMockTrigFunction
 import ru.sennik.lab2.getValues
 import kotlin.math.PI
 
@@ -17,7 +17,7 @@ import kotlin.math.PI
  */
 class CscTest {
    private val defaultAccuracy = 0.01
-   private val defaultSin = getMockFunction<Sin>(filename)
+   private val defaultSin = getMockTrigFunction<Sin>(filename)
 
    @ParameterizedTest
    @MethodSource("cscValuesMethodSource")

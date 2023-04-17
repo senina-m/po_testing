@@ -73,16 +73,16 @@ class DifficultFunctionTest {
         private const val resultFilename = "dif_fun_res.csv"
 
         private val defaultAccuracy = 0.01
-        private val defaultSin = getMockFunction<Sin>(sinFilename)
-        private val defaultCos = getMockFunction<Cos>(cosFilename)
-        private val defaultCsc = getMockFunction<Csc>(cscFilename)
-        private val defaultTan = getMockFunction<Tan>(tanFilename)
-        private val defaultCot = getMockFunction<Cot>(cotFilename)
-        private val defaultLn = getMockFunction<Ln>(lnFilename)
-        private val defaultLog2 = getMockFunction<Log2>(log2Filename)
-        private val defaultLog3 = getMockFunction<Log3>(log3Filename)
-        private val defaultLog5 = getMockFunction<Log5>(log5Filename)
-        private val defaultLog10 = getMockFunction<Log10>(log10Filename)
+        private val defaultSin = getMockTrigFunction<Sin>(sinFilename)
+        private val defaultCos = getMockTrigFunction<Cos>(cosFilename)
+        private val defaultCsc = getMockTrigFunction<Csc>(cscFilename)
+        private val defaultTan = getMockTrigFunction<Tan>(tanFilename)
+        private val defaultCot = getMockTrigFunction<Cot>(cotFilename)
+        private val defaultLn = getMockLogFunction<Ln>(lnFilename)
+        private val defaultLog2 = getMockLogFunction<Log2>(log2Filename)
+        private val defaultLog3 = getMockLogFunction<Log3>(log3Filename)
+        private val defaultLog5 = getMockLogFunction<Log5>(log5Filename)
+        private val defaultLog10 = getMockLogFunction<Log10>(log10Filename)
 
         @JvmStatic
         fun funValuesMethodSource() = getArgsAndValues(resultFilename)
@@ -116,10 +116,7 @@ class DifficultFunctionTest {
                 )
             ).thenThrow(FunctionNotExistsException::class.java)
             Mockito.`when`(
-                defaultTan.count(
-                    doubleThat(DoubleRangeTwoPiRoundMatcher(-PI / 2)),
-                    anyDouble()
-                )
+                defaultTan.count(doubleThat(DoubleRangeTwoPiRoundMatcher(-PI / 2)), anyDouble())
             ).thenThrow(FunctionNotExistsException::class.java)
 
             Mockito.`when`(

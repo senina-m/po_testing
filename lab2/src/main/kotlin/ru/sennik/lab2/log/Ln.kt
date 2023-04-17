@@ -2,7 +2,6 @@ package ru.sennik.lab2.log
 
 import ru.sennik.lab2.Formula
 import ru.sennik.lab2.exception.FunctionNotExistsException
-import ru.sennik.lab2.exception.NotValidAccuracyException
 import java.math.BigDecimal
 
 open class Ln() : Formula {
@@ -22,7 +21,7 @@ open class Ln() : Formula {
     }
 
     private fun notNearZero(x:Double, accuracy: Double): Double{
-        val xb = BigDecimal((x - 1) / (x + 1));
+        val xb = BigDecimal((x - 1) / (x + 1))
         var xm = xb
         val acc = BigDecimal(accuracy * 0.1)
         var lnX = xb
