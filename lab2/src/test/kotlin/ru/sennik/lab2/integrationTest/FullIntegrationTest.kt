@@ -12,6 +12,7 @@ import ru.sennik.lab2.DifficultFunction
 import ru.sennik.lab2.DoubleRangeMatcher
 import ru.sennik.lab2.DoubleRangeTwoPiRoundMatcher
 import ru.sennik.lab2.exception.FunctionNotExistsException
+import ru.sennik.lab2.getArgsAndValues
 import ru.sennik.lab2.getMockLogFunction
 import ru.sennik.lab2.getMockTrigFunction
 import ru.sennik.lab2.log.Ln
@@ -29,18 +30,23 @@ import kotlin.math.PI
 /**
  * @author Natalia Nikonova
  */
-class IntegrationSinTest : BaseIntegrationTest() {
+class FullIntegrationTest : BaseIntegrationTest() {
    @ParameterizedTest
-   @MethodSource("funValuesMethodSource")
+   @MethodSource("funcValuesMethodSource")
    fun checkFunctionExist(x: Double, result: Double) {
       val sin = Sin()
       val cos = Cos(sin)
       val cot = Cot(sin, cos)
       val tan = Tan(sin, cos)
       val csc = Csc(sin)
+      val ln = Ln()
+      val log10 = Log10(ln)
+      val log5 = Log5(ln)
+      val log3 = Log3(ln)
+      val log2 = Log2(ln)
       val difFun = DifficultFunction(
          sin, cos, csc, tan, cot,
-         defaultLn, defaultLog2, defaultLog3, defaultLog5, defaultLog10
+         ln, log2, log3, log5, log10
       )
       Assertions.assertEquals(
          result,
@@ -57,9 +63,14 @@ class IntegrationSinTest : BaseIntegrationTest() {
       val cot = Cot(sin, cos)
       val tan = Tan(sin, cos)
       val csc = Csc(sin)
+      val ln = Ln()
+      val log10 = Log10(ln)
+      val log5 = Log5(ln)
+      val log3 = Log3(ln)
+      val log2 = Log2(ln)
       val difFun = DifficultFunction(
          sin, cos, csc, tan, cot,
-         defaultLn, defaultLog2, defaultLog3, defaultLog5, defaultLog10
+         ln, log2, log3, log5, log10
       )
       assertThrows<FunctionNotExistsException> { difFun.count(value, defaultAccuracy) }
    }
@@ -81,6 +92,9 @@ class IntegrationSinTest : BaseIntegrationTest() {
       private val defaultLog5 = getMockLogFunction<Log5>(log5Filename)
       @JvmStatic
       private val defaultLog10 = getMockLogFunction<Log10>(log10Filename)
+
+      @JvmStatic
+      fun funcValuesMethodSource() = getArgsAndValues("zdif_ful_res.csv")
 
       @JvmStatic
       @BeforeAll
@@ -167,11 +181,6 @@ class IntegrationSinTest : BaseIntegrationTest() {
                ArgumentMatchers.anyDouble()
             )
          ).thenThrow(FunctionNotExistsException::class.java)
-
-         /*Mockito.`when`(defaultLn.count(eq(2.0), anyDouble())).thenReturn(ln(2.0))
-         Mockito.`when`(defaultLn.count(eq(3.0), anyDouble())).thenReturn(ln(3.0))
-         Mockito.`when`(defaultLn.count(eq(5.0), anyDouble())).thenReturn(ln(5.0))
-         Mockito.`when`(defaultLn.count(eq(10.0), anyDouble())).thenReturn(ln(10.0))*/
       }
    }
 }

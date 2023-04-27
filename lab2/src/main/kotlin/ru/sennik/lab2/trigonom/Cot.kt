@@ -2,7 +2,6 @@ package ru.sennik.lab2.trigonom
 
 import ru.sennik.lab2.Formula
 import ru.sennik.lab2.exception.FunctionNotExistsException
-import kotlin.math.sin
 
 /**
  * @author Natalia Nikonova

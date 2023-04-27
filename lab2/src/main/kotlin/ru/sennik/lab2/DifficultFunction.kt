@@ -38,15 +38,11 @@ class DifficultFunction(
             throw FunctionNotExistsException(x, "difficult fun", ex)
          }
       } else {
-         try {
-            val log10Val = log10.count(x, dAccuracy)
-            val log5Val = log5.count(x, dAccuracy)
-            val reduced = ((log10Val * log3.count(x, dAccuracy) - log5Val) * log2.count(x, dAccuracy).pow(3)).pow(2)
-            val subtrahend = ln.count(x, dAccuracy) * (log5Val.pow(2) + log10Val.pow(3))
-            result = reduced - subtrahend
-         } catch (ex: FunctionNotExistsException) {
-            throw FunctionNotExistsException(x, "difficult fun", ex)
-         }
+         val log10Val = log10.count(x, dAccuracy)
+         val log5Val = log5.count(x, dAccuracy)
+         val reduced = ((log10Val * log3.count(x, dAccuracy) - log5Val) * log2.count(x, dAccuracy).pow(3)).pow(2)
+         val subtrahend = ln.count(x, dAccuracy) * (log5Val.pow(2) + log10Val.pow(3))
+         result = reduced - subtrahend
       }
       return result
    }
