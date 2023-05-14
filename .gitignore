@@ -6,3 +6,5 @@ lab2/build
 lab2/.gradle
 gradle
 test.txt
+/lab3/.gradle/
+/lab3/build/

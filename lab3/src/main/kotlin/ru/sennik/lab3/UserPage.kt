@@ -14,6 +14,12 @@ class UserPage(driver: WebDriver) {
     @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[1]/a/span")
     private val userName: WebElement? = null
 
+    @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[3]/div/form/button")
+    private val logoutBtn : WebElement? = null
+
+    @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[2]/a[1]")
+    private val settingsBtn : WebElement? = null
+
     init {
         PageFactory.initElements(driver, this)
         this.driver = driver
@@ -27,5 +33,11 @@ class UserPage(driver: WebDriver) {
         userInfo!!.click()
     }
 
+    fun clickLogout(){
+        logoutBtn!!.click()
+    }
 
+    fun clickSettings(){
+        settingsBtn!!.click()
+    }
 }
