@@ -21,8 +21,11 @@ class MainPage(driver: WebDriver) {
     @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[2]/div/div/div/div/div[5]/a")
     private val loginBtn: WebElement? = null
 
-    @FindBy(xpath ="//*[@id=\"HH-React-Root\"]/div/div[2]/div[1]/div/div/div/div[6]/a")
-    private val cvButtonCreate: WebElement? = null
+    @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[2]/div[1]/div/div/div/div[1]/a")
+    private val goToCVButton: WebElement? = null
+
+    @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[2]/div[1]/div/div/div/div[6]/a")
+    private val createCVButton: WebElement? = null
 
     init {
         PageFactory.initElements(driver, this)
@@ -46,5 +49,13 @@ class MainPage(driver: WebDriver) {
 
     fun findLoginBtn(): Boolean{
         return loginBtn != null
+    }
+
+    fun clickCreateCVButton() {
+        createCVButton!!.click()
+    }
+
+    fun clickGoToCVButton() {
+        goToCVButton!!.click()
     }
 }
