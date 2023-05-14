@@ -29,7 +29,7 @@ class CVPageTest {
          //окно разворачивается на полный экран
          driver.manage().window().maximize()
          //задержка на выполнение теста = 1 сек.
-         driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS)
+         driver.manage().timeouts().implicitlyWait(1000, TimeUnit.MILLISECONDS)
       }
    }
 

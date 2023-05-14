@@ -1,6 +1,6 @@
 package ru.sennik.lab3
 
-import org.openqa.selenium.JavascriptException
+import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -59,7 +59,7 @@ class CVPage(driver: WebDriver) {
 
     // работает только если одно место работы добавить, потом уже xpath другой
     @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div/form/div[5]/div[2]/div[1]/div/div[2]/div/button")
-    private val addFirstlyWorkplaceButton: WebElement? = null
+    private var addFirstlyWorkplaceButton: WebElement? = null
 
     @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div/form/div[6]/div[1]/div[2]/div/div/span/textarea")
     private val aboutMeField: WebElement? = null
@@ -75,32 +75,32 @@ class CVPage(driver: WebDriver) {
 
     // add work
 
-    @FindBy(xpath = "/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[1]/div[2]/div/div/div[1]/div/div[1]/div/select")
-    private val monthWorkStartSelect: WebElement? = null
+    private val monthWorkStartSelect: WebElement?
+        get(): WebElement? = driver.findElement(By.xpath("/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[1]/div[2]/div/div/div[1]/div/div[1]/div/select"))
 
-    @FindBy(xpath = "/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[1]/div[2]/div[1]/div/div[1]/div/div[2]/fieldset/input")
-    private val yearWorkStartField: WebElement? = null
+    private val yearWorkStartField: WebElement?
+        get(): WebElement? = driver.findElement(By.xpath("/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[1]/div[2]/div[1]/div/div[1]/div/div[2]/fieldset/input"))
 
-    @FindBy(xpath = "/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[2]/div[2]/div/div/label/input")
-    private val continueWorkCheckbox: WebElement? = null
+    private val continueWorkCheckbox: WebElement?
+        get(): WebElement? = driver.findElement(By.xpath("/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[2]/div[2]/div/div/label/input"))
 
-    @FindBy(xpath = "/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[2]/div[2]/div/div[2]/div[1]/div/div[1]/div/select")
-    private val monthWorkEndSelect: WebElement? = null
+    private val monthWorkEndSelect: WebElement?
+        get(): WebElement? = driver.findElement(By.xpath("/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[2]/div[2]/div/div[2]/div[1]/div/div[1]/div/select"))
 
-    @FindBy(xpath = "/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[1]/div[2]/div[1]/div/div[1]/div/div[2]/fieldset/input")
-    private val yearWorkEndField: WebElement? = null
+    private val yearWorkEndField: WebElement?
+        get(): WebElement? = driver.findElement(By.xpath("/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[1]/div[2]/div[1]/div/div[1]/div/div[2]/fieldset/input"))
 
-    @FindBy(xpath = "/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[3]/div/div[3]/div[1]/div/div/fieldset/input")
-    private val organizationField: WebElement? = null
+    private val organizationField: WebElement?
+        get(): WebElement? = driver.findElement(By.xpath("/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[3]/div/div[3]/div[1]/div/div/fieldset/input"))
 
-    @FindBy(xpath = "/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[3]/div/div[6]/div[1]/div/div/fieldset/input")
-    private val positionField: WebElement? = null
+    private val positionField: WebElement?
+        get(): WebElement? = driver.findElement(By.xpath("/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[3]/div/div[6]/div[1]/div/div/fieldset/input"))
 
-    @FindBy(xpath = "/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[4]/div[2]/div/div/textarea")
-    private val chargeField: WebElement? = null
+    private val chargeField: WebElement?
+        get(): WebElement? = driver.findElement(By.xpath("/html/body/div[12]/div/div[1]/div[2]/div[1]/div/form/div/div[4]/div[2]/div/div/textarea"))
 
-    @FindBy(xpath = "/html/body/div[12]/div/div[1]/div[4]/div[2]/button")
-    private val saveWorkplace: WebElement? = null
+    private val saveWorkplace: WebElement?
+        get(): WebElement? = driver.findElement(By.xpath("/html/body/div[12]/div/div[1]/div[4]/div[2]/button"))
 
     // haven't got work experience
 
@@ -157,16 +157,18 @@ class CVPage(driver: WebDriver) {
     @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div/form/div[11]/div[2]/div/div[1]/div[1]/div[2]/div/fieldset/input")
     private val metroField: WebElement? = null
 
-    @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div/form/div[4]/div[2]/button")
-    private val sendButton: WebElement? = null
-
     init {
         PageFactory.initElements(driver, this)
         this.driver = driver
     }
 
     fun sendCV() {
-        sendButton!!.click()
+        var i = 4
+        while (runCatching {
+            driver.findElement(By.xpath("//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div/form/div[$i]/div/button")).click()
+        }.isFailure) {
+            i++
+        }
     }
 
     fun checkChoseWorkErrorMessage(): Boolean = runCatching { choseWorkErrorMessage?.isDisplayed != true }.isSuccess
@@ -236,12 +238,10 @@ class CVPage(driver: WebDriver) {
 
     fun selectWithWorkExperience() {
         (driver as JavascriptExecutor).executeScript("arguments[0].click();", hasWorkExperienceRatio)
-        //hasWorkExperienceRatio?.click()
     }
 
     fun selectWithoutWorkExperience() {
         (driver as JavascriptExecutor).executeScript("arguments[0].click();", noWorkExperienceRatio)
-        //noWorkExperienceRatio?.click()
     }
 
     fun fillSpecialization(postName: String, salary: Int, currency: Currency) {
