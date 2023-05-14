@@ -39,4 +39,8 @@ class MainPage(driver: WebDriver) {
     fun clickLoginBtn() {
         loginBtn!!.click()
     }
+
+    fun findLoginBtn(): Boolean{
+        return loginBtn != null
+    }
 }

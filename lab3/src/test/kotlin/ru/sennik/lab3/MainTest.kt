@@ -1,23 +1,120 @@
 package ru.sennik.lab3
 
 import org.junit.jupiter.api.BeforeEach
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
+import ru.sennik.lab3.ConfProperties.getProperty
 import java.util.concurrent.TimeUnit
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 
-class MainPage {
+class MainTest {
 
+    companion object {
+        private val driver = ChromeDriver()
+        val searchPage = SearchPage(driver)
+        val mainPage = MainPage(driver)
+        val settingsPage = SettingsPage(driver)
+        val loginPage = LoginPage(driver)
+        val loginWithPasswordPage = LoginWithPasswordPage(driver)
+        val userPage = UserPage(driver)
+        @JvmStatic
+        @BeforeAll
+        fun setup() {
+            //определение пути до драйвера и его настройка
+            System.setProperty("webdriver.chrome.driver", getProperty("chromedriver"))
+            //окно разворачивается на полный экран
+            driver.manage().window().maximize()
+            //задержка на выполнение теста = 1 сек.
+            driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS)
+        }
+    }
     @BeforeEach
-    fun setup() {
-        //определение пути до драйвера и его настройка
-        System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
-        //создание экземпляра драйвера
-        val driver: WebDriver = ChromeDriver();
-        //окно разворачивается на полный экран
-        driver.manage().window().maximize();
-        //задержка на выполнение теста = 10 сек.
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        //получение ссылки на страницу входа из файла настроек
-        driver.get(ConfProperties.getProperty("mainpage"));
+    fun setupMainPage() {
+        driver.get(getProperty("mainpage"))
+    }
+
+    @Test
+    fun searchTest() {
+
+        //значение vacancy берётся из файла настроек по аналогии с chromedriver и mainpage вводим логин
+        mainPage.inputVacancy(getProperty("vacancy"))
+        //нажимаем кнопку входа
+        mainPage.clickSearchBtn()
+        //получаем отображаемый логин
+        val vacancy: String = searchPage.vacancyHeader
+        //и сравниваем его с логином из файла настроек
+        Assertions.assertTrue(vacancy.contains(getProperty("vacancy")))
+    }
+
+    private fun login(login: String, password: String){
+        mainPage.clickLoginBtn()
+        loginPage.clickLoginWithPassword()
+        loginWithPasswordPage.inputLogin(login)
+        loginWithPasswordPage.inputPasswd(password)
+        loginWithPasswordPage.login()
+    }
+
+    @Test
+    fun loginTest() {
+        login(getProperty("login"), getProperty("password"))
+        userPage.clickUserInfo()
+        val name: String? = userPage.getUserName()
+        println(name.toString())
+        Assertions.assertEquals(name, getProperty("userName"))
+    }
+
+    @Test
+    fun logoutTest(){
+        login(getProperty("login"), getProperty("password"))
+        userPage.clickUserInfo()
+        userPage.clickLogout()
+        //проверяем, что можем найти кнопку входа
+        Assertions.assertTrue(mainPage.findLoginBtn())
+    }
+
+    private fun openSettings(){
+        login(getProperty("login"), getProperty("password"))
+        userPage.clickUserInfo()
+        userPage.clickSettings()
+    }
+
+    @Test
+    fun changeName(){
+        openSettings()
+        settingsPage.clickChangeName()
+        settingsPage.inputName(getProperty("new_name"))
+        settingsPage.inputSurname(getProperty("new_surname"))
+        settingsPage.input2Name(getProperty("new_name2")) //optional
+        settingsPage.clickSaveName()
+        val name = settingsPage.getUserName()
+        Assertions.assertEquals(name, "${getProperty("new_name")} ${getProperty("new_surname")} ${getProperty("new_2name")}")
+
+        //set old name
+        settingsPage.clickChangeName()
+        settingsPage.inputName(getProperty("name"))
+        settingsPage.inputSurname(getProperty("surname"))
+        settingsPage.input2Name(getProperty("name2")) //optional
+        settingsPage.clickSaveName()
+    }
+    @Test
+    fun changePassword(){
+        openSettings()
+        settingsPage.clickChangePassword()
+        settingsPage.inputOldPassword(getProperty("password"))
+        val newPass = getProperty("new_password")
+        settingsPage.inputNewPassword1(newPass)
+        settingsPage.inputNewPassword2(newPass)
+        settingsPage.clickSavePassword()
+        // the password was changed
+        val notification: String? = settingsPage.getPasswordChangedNotification()
+        Assertions.assertEquals(notification, getProperty("notification_pass_success"))
+
+        //change password back
+        settingsPage.clickChangePassword()
+        settingsPage.inputOldPassword(getProperty("new_password"))
+        settingsPage.inputNewPassword1(getProperty("password"))
+        settingsPage.inputNewPassword2(getProperty("password"))
+        settingsPage.clickSavePassword()
     }
 }
