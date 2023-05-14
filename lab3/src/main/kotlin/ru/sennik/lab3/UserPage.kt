@@ -1,9 +1,11 @@
 package ru.sennik.lab3
 
+import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 import org.openqa.selenium.support.PageFactory
+import java.lang.RuntimeException
 
 class UserPage(driver: WebDriver) {
     private var driver: WebDriver
@@ -17,7 +19,9 @@ class UserPage(driver: WebDriver) {
     @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[3]/div/form/button")
     private val logoutBtn : WebElement? = null
 
-    @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[2]/a[1]")
+//    @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[2]/a[1]")
+
+    @FindBy(xpath = "/html/body/div[11]/div/div/div[2]/div[2]/a[1]")
     private val settingsBtn : WebElement? = null
 
     init {
@@ -38,6 +42,12 @@ class UserPage(driver: WebDriver) {
     }
 
     fun clickSettings(){
-        settingsBtn!!.click()
+        try {
+            val btn12 = driver.findElement(By.xpath("/html/body/div[12]/div/div/div[2]/div[2]/a[1]"))
+            btn12.click()
+        }catch (_: RuntimeException){
+            val btn11 = driver.findElement(By.xpath("/html/body/div[11]/div/div/div[2]/div[2]/a[1]"))
+            btn11.click()
+        }
     }
 }
