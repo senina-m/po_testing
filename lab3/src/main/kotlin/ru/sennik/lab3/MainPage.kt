@@ -20,6 +20,10 @@ class MainPage(driver: WebDriver) {
 
     @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[2]/div/div/div/div/div[5]/a")
     private val loginBtn: WebElement? = null
+
+    @FindBy(xpath ="//*[@id=\"HH-React-Root\"]/div/div[2]/div[1]/div/div/div/div[6]/a")
+    private val cvButtonCreate: WebElement? = null
+
     init {
         PageFactory.initElements(driver, this)
         this.driver = driver
