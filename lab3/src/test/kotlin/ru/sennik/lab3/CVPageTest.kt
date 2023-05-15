@@ -18,6 +18,8 @@ class CVPageTest {
       val mainPage = MainPage(driver)
       val listCVPage = ListCVPage(driver)
       val cvPage = CVPage(driver)
+      val successfulCreateCVPage = SuccessfulCreateCVPage(driver)
+      val cvViewPage= CVViewPage(driver)
       val loginPage = LoginPage(driver)
       val loginWithPasswordPage = LoginWithPasswordPage(driver)
 
@@ -73,7 +75,9 @@ class CVPageTest {
       cvPage.sendCV()
 
       // проверить что отправилось успешно
+      Assertions.assertTrue(successfulCreateCVPage.checkSuccessHeader())
       // удалить
+      clearCV(getProperty("post"))
    }
 
    @Test
@@ -93,7 +97,9 @@ class CVPageTest {
       cvPage.sendCV()
 
       // проверить что отправилось успешно
+      Assertions.assertTrue(successfulCreateCVPage.checkSuccessHeader())
       // удалить
+      clearCV(getProperty("other_post"))
    }
 
    private fun login(login: String, password: String){
@@ -118,5 +124,12 @@ class CVPageTest {
       Assertions.assertEquals(cvPage.getSurnameFieldText(), getProperty("surname"))
       // Assertions.assertEquals(cvPage.getCityFieldText(), getProperty("city"))
       Assertions.assertEquals(cvPage.getSex().name, getProperty("sex"))
+   }
+
+   private fun clearCV(name: String) {
+      successfulCreateCVPage.clickGoToCVButton()
+      listCVPage.openCVByName(name)
+      cvViewPage.clickDeleteButton()
+      cvViewPage.clickConfirmDeleteButton()
    }
 }

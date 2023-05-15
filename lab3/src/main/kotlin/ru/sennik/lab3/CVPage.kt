@@ -2,6 +2,7 @@ package ru.sennik.lab3
 
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
@@ -245,6 +246,7 @@ class CVPage(driver: WebDriver) {
     }
 
     fun fillSpecialization(postName: String, salary: Int, currency: Currency) {
+        repeat(30) { postField?.sendKeys(Keys.BACK_SPACE) }
         postField?.sendKeys(postName)
         valueSalaryField?.sendKeys(salary.toString())
         val currencySelector = Select(currencySalarySelect)
