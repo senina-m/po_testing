@@ -255,12 +255,14 @@ class CVPage(driver: WebDriver) {
 
     fun addWork(startMonth: Int, startYear: Int, organization: String, position: String, charge: String) {
         addFirstlyWorkplaceButton?.click()
-        val monthSelect = Select(monthWorkStartSelect)
-        monthSelect.selectByIndex(startMonth)
-        yearWorkStartField?.sendKeys(startYear.toString())
-        organizationField?.sendKeys(organization)
-        positionField?.sendKeys(position)
-        chargeField?.sendKeys(charge)
+        repeatUntilSuccess{
+            val monthSelect = Select(monthWorkStartSelect)
+            monthSelect.selectByIndex(startMonth)
+        }
+        repeatUntilSuccess{ yearWorkStartField?.sendKeys(startYear.toString()) }
+        repeatUntilSuccess{ organizationField?.sendKeys(organization) }
+        repeatUntilSuccess { positionField?.sendKeys(position) }
+        repeatUntilSuccess { chargeField?.sendKeys(charge) }
         saveWorkplace?.click()
     }
 }
