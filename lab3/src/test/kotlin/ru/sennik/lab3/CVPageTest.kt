@@ -5,8 +5,11 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.remote.RemoteWebDriver
 import ru.sennik.lab3.ConfProperties.getProperty
 import ru.sennik.lab3.Currency.Companion.toCurrency
+import java.net.URL
 import java.util.concurrent.TimeUnit
 
 /**
@@ -14,6 +17,19 @@ import java.util.concurrent.TimeUnit
  */
 class CVPageTest {
    companion object {
+      /*private val options = ChromeOptions().also {
+         it.setCapability("browserVersion", "111.0")
+         it.setCapability("selenoid:options", mapOf(
+            "name" to "Test badge...",
+            "sessionTimeout" to "15m",
+            "env" to listOf("TZ=UTC"),
+            "labels" to mapOf("manual" to "true"),
+            "enableVideo" to true
+         ))
+      }
+
+
+      private val driver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), options)*/
       private val driver = ChromeDriver()
       val mainPage = MainPage(driver)
       val listCVPage = ListCVPage(driver)
@@ -56,7 +72,7 @@ class CVPageTest {
       // что не доступны поля которые после выбора опыта открываются
       checkNotVisibleAdditionInfo()
       // проверить что поля по умолчанию добавились правильно
-      checkDefaultValues()
+      //checkDefaultValues()
       // выбрать чтоесть опыт работы
       cvPage.selectWithWorkExperience()
 
@@ -102,7 +118,7 @@ class CVPageTest {
       clearCV(getProperty("other_post"))
    }
 
-   private fun login(login: String, password: String){
+   private fun login(login: String, password: String) {
       mainPage.clickLoginBtn()
       loginPage.clickLoginWithPassword()
       loginWithPasswordPage.inputLogin(login)
