@@ -7,12 +7,12 @@ import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.WebDriver
 
 class AccountTest {
 
     companion object {
         private val driver = ChromeDriver()
-        val searchPage = SearchPage(driver)
         val mainPage = MainPage(driver)
         val settingsPage = SettingsPage(driver)
         val loginPage = LoginPage(driver)

@@ -1,35 +1,63 @@
 package ru.sennik.lab3
 
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.remote.RemoteWebDriver
 import ru.sennik.lab3.ConfProperties.getProperty
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
+
 
 class SearchTest {
-    companion object {
-        private val driver = ChromeDriver()
-        val searchPage = SearchPage(driver)
-        val mainPage = MainPage(driver)
-        @JvmStatic
-        @BeforeAll
-        fun setup() {
-            //определение пути до драйвера и его настройка
-            System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"))
-            //окно разворачивается на полный экран
-            driver.manage().window().maximize()
-            //задержка на выполнение теста = 1 сек.
-            driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS)
-        }
-    }
+    private var driverManager = DriverManager
+    private var driverList = emptyList<RemoteWebDriver>()
+    private val testName = "search_test"
+
     @BeforeEach
-    fun setupMainPage() {
-        driver.get(ConfProperties.getProperty("mainpage"))
+    fun setup() {
+        driverList = emptyList()
+        driverList + (driverManager.getChromeDriver(testName))
+        driverList + (driverManager.getFirefoxDriver(testName))
+//        val driver = ChromeDriver()
+//        System.setProperty("webdriver.chrome.driver", getProperty("chromedriver"))
+//        driver.manage().window().maximize()
+//        driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS)
+//        driverList + driver
     }
+
+    @AfterEach
+    fun tearDown() {
+        driverList.forEach { d -> d.quit() }
+    }
+
+    // функция, которая запускает тесты параллельно
+    private fun runTest(testFun : (RemoteWebDriver) -> Unit){
+        val latch = CountDownLatch(driverList.size)
+        driverList.forEach { d ->
+            thread {
+                try {
+                    testFun(d)
+                } catch (e: InterruptedException) {
+                    Assertions.fail<Any>()
+                } finally {
+                    latch.countDown()
+                }
+            }
+        }
+        latch.await()
+        Assertions.assertEquals(true, true)
+    }
+
     @Test
-    fun searchVacancy(){
+    fun searchVacancyTest(){
+        runTest(::searchVacancy)
+    }
+
+    private fun searchVacancy(driver: WebDriver){
+        val mainPage = MainPage(driver)
+        val searchPage = SearchPage(driver)
         mainPage.inputVacancy(getProperty("vacancy"))
         mainPage.clickSearchBtn()
         val num = getProperty("num_of_vacancies").toInt()
@@ -38,8 +66,14 @@ class SearchTest {
             headers[i]?.toLowerCase()?.let { Assertions.assertTrue(it.contains(getProperty("vacancy").toLowerCase())) }
         }
     }
+
     @Test
-    fun searchCV(){
+    fun searchCVTest(){
+        runTest(::searchCV)
+    }
+    private fun searchCV(driver: WebDriver){
+        val mainPage = MainPage(driver)
+        val searchPage = SearchPage(driver)
         mainPage.inputVacancy(getProperty("cv"))
         mainPage.clickSearchBtn()
         searchPage.searchCVs()
@@ -52,6 +86,11 @@ class SearchTest {
 
     @Test
     fun searchCompanies(){
+        runTest(:: searchCompanies)
+    }
+    private fun searchCompanies(driver: WebDriver){
+        val mainPage = MainPage(driver)
+        val searchPage = SearchPage(driver)
         mainPage.inputVacancy(getProperty("company"))
         mainPage.clickSearchBtn()
         searchPage.searchCompanies()
