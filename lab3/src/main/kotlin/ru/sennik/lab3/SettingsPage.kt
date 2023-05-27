@@ -17,11 +17,8 @@ class SettingsPage(driver: WebDriver) {
     @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div/div/div/div[3]/div/div[2]/div[1]/div/div[2]/div/div/div[2]/a")
     private val changePasswordHref: WebElement? = null
 
-    @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div/div/div/div[3]/div/div[4]/div[1]/div/div[2]/div/div/div[1]/span[1]")
-    private val phoneLabel: WebElement? = null
-
     // name
-    @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div/div/div/div[3]/div/div[1]/div[2]/form/div[1]/div[2]/div/div/input")
+    @FindBy(xpath = "/html/body/div[5]/div/div[3]/div[1]/div/div/div/div/div[3]/div/div[1]/div[2]/form/div[2]/div[2]/div/div/input")
     private val changeNameInput: WebElement? = null
 
     @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div/div/div/div[3]/div/div[1]/div[2]/form/div[1]/div[2]/div/div/input")
@@ -72,14 +69,17 @@ class SettingsPage(driver: WebDriver) {
     }
 
     fun inputName(name: String?) {
+        changeNameInput?.clear()
         changeNameInput?.sendKeys(name)
     }
 
     fun inputSurname(name: String?) {
+        changeSunameInput?.clear()
         changeSunameInput?.sendKeys(name)
     }
 
     fun input2Name(name: String?) {
+        change2NameInput?.clear()
         change2NameInput?.sendKeys(name)
     }
 
@@ -88,14 +88,17 @@ class SettingsPage(driver: WebDriver) {
     }
 
     fun inputOldPassword(pass: String?) {
+        oldPasswordInput?.clear()
         oldPasswordInput?.sendKeys(pass)
     }
 
     fun inputNewPassword1(pass: String?) {
+        newPassword1Input?.clear()
         newPassword1Input?.sendKeys(pass)
     }
 
     fun inputNewPassword2(pass: String?) {
+        newPassword2Input?.clear()
         newPassword2Input?.sendKeys(pass)
     }
 

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
-class MainTest {
+class AccountTest {
 
     companion object {
         private val driver = ChromeDriver()
@@ -32,19 +32,6 @@ class MainTest {
     @BeforeEach
     fun setupMainPage() {
         driver.get(getProperty("mainpage"))
-    }
-
-    @Test
-    fun searchTest() {
-
-        //значение vacancy берётся из файла настроек по аналогии с chromedriver и mainpage вводим логин
-        mainPage.inputVacancy(getProperty("vacancy"))
-        //нажимаем кнопку входа
-        mainPage.clickSearchBtn()
-        //получаем отображаемый логин
-        val vacancy: String = searchPage.vacancyHeader
-        //и сравниваем его с логином из файла настроек
-        Assertions.assertTrue(vacancy.contains(getProperty("vacancy")))
     }
 
     private fun login(login: String, password: String){
@@ -88,7 +75,8 @@ class MainTest {
         settingsPage.input2Name(getProperty("new_name2")) //optional
         settingsPage.clickSaveName()
         val name = settingsPage.getUserName()
-        Assertions.assertEquals(name, "${getProperty("new_name")} ${getProperty("new_surname")} ${getProperty("new_2name")}")
+        println(settingsPage.getUserName().toString())
+        Assertions.assertEquals("${getProperty("new_surname")} ${getProperty("new_name2")} ${getProperty("new_name")}", name)
 
         //set old name
         settingsPage.clickChangeName()
