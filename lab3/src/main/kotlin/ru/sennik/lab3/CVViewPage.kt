@@ -20,14 +20,21 @@ class CVViewPage(driver: WebDriver) {
    @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div/div/div[2]/div/div[2]/div/div/div/button[3]")
    private val deleteButton: WebElement? = null
 
-   private val confirmDeleteButton: WebElement?
+   private val confirmDeleteButtonFirst: WebElement?
       get(): WebElement? = driver.findElement(By.xpath("/html/body/div[12]/div/div[1]/div[2]/div/div[1]/form/button"))
+
+   private val confirmDeleteButtonSecond: WebElement?
+      get(): WebElement? = driver.findElement(By.xpath("/html/body/div[13]/div/div[1]/div[2]/div/div[1]/form/button"))
 
    fun clickDeleteButton() {
       deleteButton?.click()
    }
 
    fun clickConfirmDeleteButton() {
-      confirmDeleteButton?.click()
+      runCatching {
+         confirmDeleteButtonFirst?.click()
+      }.onFailure {
+         confirmDeleteButtonSecond?.click()
+      }
    }
 }
