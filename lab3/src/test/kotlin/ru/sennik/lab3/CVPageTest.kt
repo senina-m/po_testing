@@ -1,151 +1,151 @@
-// package ru.sennik.lab3
+package ru.sennik.lab3
 
-// import org.junit.jupiter.api.Assertions
-// import org.junit.jupiter.api.BeforeAll
-// import org.junit.jupiter.api.BeforeEach
-// import org.junit.jupiter.api.Test
-// import org.openqa.selenium.chrome.ChromeDriver
-// import org.openqa.selenium.chrome.ChromeOptions
-// import org.openqa.selenium.remote.RemoteWebDriver
-// import ru.sennik.lab3.ConfProperties.getProperty
-// import ru.sennik.lab3.Currency.Companion.toCurrency
-// import java.net.URL
-// import java.util.concurrent.TimeUnit
+import org.junit.jupiter.api.*
+import org.openqa.selenium.remote.RemoteWebDriver
+import ru.sennik.lab3.ConfProperties.getProperty
+import ru.sennik.lab3.Currency.Companion.toCurrency
+import java.util.concurrent.TimeUnit
 
-// /**
-//  * @author Natalia Nikonova
-//  */
-// class CVPageTest {
-//    companion object {
-//       /*private val options = ChromeOptions().also {
-//          it.setCapability("browserVersion", "111.0")
-//          it.setCapability("selenoid:options", mapOf(
-//             "name" to "Test badge...",
-//             "sessionTimeout" to "15m",
-//             "env" to listOf("TZ=UTC"),
-//             "labels" to mapOf("manual" to "true"),
-//             "enableVideo" to true
-//          ))
-//       }
+/**
+ * @author Natalia Nikonova
+ */
+class CVPageTest {
+    private var driverManager = DriverManager
+    private var driverList = emptyList<RemoteWebDriver>()
+    private val testName = "CV_test"
 
+    @BeforeEach
+    fun setup() {
+        driverList = mutableListOf(driverManager.getChromeDriver(testName), driverManager.getFirefoxDriver(testName))
+        driverList.forEach {
+            it.manage().timeouts().implicitlyWait(1000, TimeUnit.MILLISECONDS)
+            it.get(getProperty("mainpage"))
+            val loginPage = LoginPage(it)
+            val loginWithPasswordPage = LoginWithPasswordPage(it)
+            val mainPage = MainPage(it)
+            login(getProperty("login"), getProperty("password"), mainPage, loginPage, loginWithPasswordPage)
+            mainPage.clickGoToCVButton()
+        }
+    }
 
-//       private val driver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), options)*/
-//       private val driver = ChromeDriver()
-//       val mainPage = MainPage(driver)
-//       val listCVPage = ListCVPage(driver)
-//       val cvPage = CVPage(driver)
-//       val successfulCreateCVPage = SuccessfulCreateCVPage(driver)
-//       val cvViewPage= CVViewPage(driver)
-//       val loginPage = LoginPage(driver)
-//       val loginWithPasswordPage = LoginWithPasswordPage(driver)
+    @AfterEach
+    fun tearDown() {
+        driverList.forEach { d -> d.quit() }
+    }
 
-//       @JvmStatic
-//       @BeforeAll
-//       fun setup() {
-//          //определение пути до драйвера и его настройка
-//          System.setProperty("webdriver.chrome.driver", getProperty("chromedriver"))
-//          //окно разворачивается на полный экран
-//          driver.manage().window().maximize()
-//          //задержка на выполнение теста = 1 сек.
-//          driver.manage().timeouts().implicitlyWait(1000, TimeUnit.MILLISECONDS)
-//       }
-//    }
+    @Test
+    fun createWithoutRequiredFieldFailedTest() {
+        runTest(::createWithoutRequiredFieldFailed, driverList)
+    }
 
-//    @BeforeEach
-//    fun setupMainPage() {
-//       driver.get(getProperty("mainpage"))
-//       login(getProperty("login"), getProperty("password"))
-//       mainPage.clickGoToCVButton()
-//       listCVPage.clickCreateCVButton()
-//    }
+    private fun createWithoutRequiredFieldFailed(driver: RemoteWebDriver) {
+        val listCVPage = ListCVPage(driver)
+        listCVPage.clickCreateCVButton()
+        val cvPage = CVPage(driver)
 
-//    @Test
-//    fun createWithoutRequiredFieldFailed() {
-//       checkNotVisibleAdditionInfo()
+        checkNotVisibleAdditionInfo(cvPage)
+        cvPage.sendCV()
+        Assertions.assertTrue(cvPage.checkChoseWorkErrorMessage())
+    }
 
-//       cvPage.sendCV()
-//       Assertions.assertTrue(cvPage.checkChoseWorkErrorMessage())
-//    }
+    @Test
+    fun createWithWorkExperienceSuccessful() {
+        runTest(::createWithWorkExperienceSuccessful, driverList)
+    }
+    private fun createWithWorkExperienceSuccessful(driver: RemoteWebDriver) {
+        val listCVPage = ListCVPage(driver)
+        listCVPage.clickCreateCVButton()
 
-//    @Test
-//    fun createWithWorkExperienceSuccessful() {
-//       // что не доступны поля которые после выбора опыта открываются
-//       checkNotVisibleAdditionInfo()
-//       // проверить что поля по умолчанию добавились правильно
-//       //checkDefaultValues()
-//       // выбрать чтоесть опыт работы
-//       cvPage.selectWithWorkExperience()
+        val cvPage = CVPage(driver)
+        val successfulCreateCVPage = SuccessfulCreateCVPage(driver)
+        val cvViewPage = CVViewPage(driver)
+        // что не доступны поля которые после выбора опыта открываются
+        checkNotVisibleAdditionInfo(cvPage)
+        // проверить что поля по умолчанию добавились правильно
+        //checkDefaultValues()
+        // выбрать чтоесть опыт работы
+        cvPage.selectWithWorkExperience()
 
-//       // проверить что не доступны поля для нет опыта
-//       Assertions.assertTrue(cvPage.checkNotExistNoWorkExperienceFields())
-//       // заполнить минимум
-//       cvPage.fillSpecialization(getProperty("post"), getProperty("salary").toInt(), getProperty("currency").toCurrency()!!)
-//       cvPage.addWork(
-//          getProperty("startWorkMonth").toInt(),
-//          getProperty("startWorkYear").toInt(),
-//          getProperty("organization"),
-//          getProperty("position"),
-//          getProperty("charge")
-//       )
+        // проверить что не доступны поля для нет опыта
+        Assertions.assertTrue(cvPage.checkNotExistNoWorkExperienceFields())
+        // заполнить минимум
+        cvPage.fillSpecialization(getProperty("post"), getProperty("salary").toInt(), getProperty("currency").toCurrency()!!)
+        cvPage.addWork(
+                getProperty("startWorkMonth").toInt(),
+                getProperty("startWorkYear").toInt(),
+                getProperty("organization"),
+                getProperty("position"),
+                getProperty("charge")
+        )
 
-//       cvPage.sendCV()
+        cvPage.sendCV()
 
-//       // проверить что отправилось успешно
-//       Assertions.assertTrue(successfulCreateCVPage.checkSuccessHeader())
-//       // удалить
-//       clearCV(getProperty("post"))
-//    }
+        // проверить что отправилось успешно
+        Assertions.assertTrue(successfulCreateCVPage.checkSuccessHeader())
+        // удалить
+        clearCV(getProperty("post"), successfulCreateCVPage, listCVPage, cvViewPage)
+    }
 
-//    @Test
-//    fun createWithoutWorkExperienceSuccessful(){
-//       // что не доступны поля которые после выбора опыта открываются
-//       checkNotVisibleAdditionInfo()
-//       // проверить что поля по умолчанию добавились правильно
-//       checkDefaultValues()
+    @Test
+    fun createWithoutWorkExperienceSuccessful() {
+        runTest(::createWithoutWorkExperienceSuccessful, driverList)
+    }
 
-//       // выбрать что нет опыт работы
-//       cvPage.selectWithoutWorkExperience()
+    private fun createWithoutWorkExperienceSuccessful(driver: RemoteWebDriver) {
+        val listCVPage = ListCVPage(driver)
+        listCVPage.clickCreateCVButton()
 
-//       // проверить что не доступны поля для есть опыт
-//       Assertions.assertTrue(cvPage.checkNotExistWorkExperienceFields())
-//       // заполнить минимум
-//       cvPage.fillSpecialization(getProperty("other_post"), getProperty("salary").toInt(), getProperty("currency").toCurrency()!!)
-//       cvPage.sendCV()
+        val cvPage = CVPage(driver)
+        val successfulCreateCVPage = SuccessfulCreateCVPage(driver)
+        val cvViewPage = CVViewPage(driver)
+        // что не доступны поля которые после выбора опыта открываются
+        checkNotVisibleAdditionInfo(cvPage)
+        // проверить что поля по умолчанию добавились правильно
+        checkDefaultValues(cvPage)
 
-//       // проверить что отправилось успешно
-//       Assertions.assertTrue(successfulCreateCVPage.checkSuccessHeader())
-//       // удалить
-//       clearCV(getProperty("other_post"))
-//    }
+        // выбрать что нет опыт работы
+        cvPage.selectWithoutWorkExperience()
 
-//    private fun login(login: String, password: String) {
-//       mainPage.clickLoginBtn()
-//       loginPage.clickLoginWithPassword()
-//       loginWithPasswordPage.inputLogin(login)
-//       loginWithPasswordPage.inputPasswd(password)
-//       loginWithPasswordPage.login()
-//    }
+        // проверить что не доступны поля для есть опыт
+        Assertions.assertTrue(cvPage.checkNotExistWorkExperienceFields())
+        // заполнить минимум
+        cvPage.fillSpecialization(getProperty("other_post"), getProperty("salary").toInt(), getProperty("currency").toCurrency()!!)
+        cvPage.sendCV()
 
-//    private fun checkNotVisibleAdditionInfo() {
-//       Assertions.assertTrue(cvPage.checkNotExistEducationFields())
-//       Assertions.assertTrue(cvPage.checkNotExistSpecialtyFields())
-//       Assertions.assertTrue(cvPage.checkNotExistsLanguagesFields())
-//       Assertions.assertTrue(cvPage.checkNotExistAddWorkFields())
-//       Assertions.assertTrue(cvPage.checkNotExistNoWorkExperienceFields())
-//       Assertions.assertTrue(cvPage.checkNotExistWorkExperienceFields())
-//    }
+        // проверить что отправилось успешно
+        Assertions.assertTrue(successfulCreateCVPage.checkSuccessHeader())
+        // удалить
+        clearCV(getProperty("other_post"), successfulCreateCVPage, listCVPage, cvViewPage)
+    }
 
-//    private fun checkDefaultValues() {
-//       Assertions.assertEquals(cvPage.getNameFieldText(), getProperty("name"))
-//       Assertions.assertEquals(cvPage.getSurnameFieldText(), getProperty("surname"))
-//       // Assertions.assertEquals(cvPage.getCityFieldText(), getProperty("city"))
-//       Assertions.assertEquals(cvPage.getSex().name, getProperty("sex"))
-//    }
+    private fun login(login: String, password: String, mainPage: MainPage, loginPage: LoginPage, loginWithPasswordPage: LoginWithPasswordPage) {
+        mainPage.clickLoginBtn()
+        loginPage.clickLoginWithPassword()
+        loginWithPasswordPage.inputLogin(login)
+        loginWithPasswordPage.inputPasswd(password)
+        loginWithPasswordPage.login()
+    }
 
-//    private fun clearCV(name: String) {
-//       successfulCreateCVPage.clickGoToCVButton()
-//       listCVPage.openCVByName(name)
-//       cvViewPage.clickDeleteButton()
-//       cvViewPage.clickConfirmDeleteButton()
-//    }
-// }
+    private fun checkNotVisibleAdditionInfo(cvPage: CVPage) {
+        Assertions.assertTrue(cvPage.checkNotExistEducationFields())
+        Assertions.assertTrue(cvPage.checkNotExistSpecialtyFields())
+        Assertions.assertTrue(cvPage.checkNotExistsLanguagesFields())
+        Assertions.assertTrue(cvPage.checkNotExistAddWorkFields())
+        Assertions.assertTrue(cvPage.checkNotExistNoWorkExperienceFields())
+        Assertions.assertTrue(cvPage.checkNotExistWorkExperienceFields())
+    }
+
+    private fun checkDefaultValues(cvPage: CVPage) {
+        Assertions.assertEquals(cvPage.getNameFieldText(), getProperty("name"))
+        Assertions.assertEquals(cvPage.getSurnameFieldText(), getProperty("surname"))
+        // Assertions.assertEquals(cvPage.getCityFieldText(), getProperty("city"))
+        Assertions.assertEquals(cvPage.getSex().name, getProperty("sex"))
+    }
+
+    private fun clearCV(name: String, successfulCreateCVPage: SuccessfulCreateCVPage, listCVPage: ListCVPage, cvViewPage: CVViewPage) {
+        successfulCreateCVPage.clickGoToCVButton()
+        listCVPage.openCVByName(name)
+        cvViewPage.clickDeleteButton()
+        cvViewPage.clickConfirmDeleteButton()
+    }
+}

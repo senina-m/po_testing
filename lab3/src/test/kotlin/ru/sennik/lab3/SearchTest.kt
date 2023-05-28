@@ -2,14 +2,9 @@ package ru.sennik.lab3
 
 import org.junit.jupiter.api.*
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.remote.RemoteWebDriver
 import ru.sennik.lab3.ConfProperties.getProperty
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.Executors
-import java.util.concurrent.ExecutionException
-import kotlin.concurrent.thread
 
 
 class SearchTest {
@@ -31,34 +26,9 @@ class SearchTest {
         driverList.forEach { d -> d.quit() }
     }
 
-    // функция, которая запускает тесты параллельно
-    private fun runTest(testFun : (RemoteWebDriver) -> Unit){
-        val executor = Executors.newFixedThreadPool(driverList.size)
-        val results = driverList.map { d ->
-            executor.submit{
-                testFun(d)
-            }
-        }
-        executor.shutdown()
-//        executor.awaitTermination(15, TimeUnit.SECONDS)
-        results.forEach{
-            try{
-                it.get()
-            }
-            catch (e : ExecutionException){
-                println("ExecutionException: ${e.message}")
-                Assertions.fail<Any>()
-            }
-            catch (e : InterruptedException){
-                println("InterruptedException: ${e.message}")
-                Assertions.fail<Any>()
-            }
-        }
-    }
-
     @Test
     fun searchVacancyTest(){
-        runTest(::searchVacancy)
+        runTest(::searchVacancy, driverList)
     }
 
     private fun searchVacancy(driver: WebDriver){
@@ -76,7 +46,7 @@ class SearchTest {
 
     @Test
     fun searchCVTest(){
-        runTest(::searchCV)
+        runTest(::searchCV, driverList)
     }
     private fun searchCV(driver: WebDriver){
         val mainPage = MainPage(driver)
@@ -93,7 +63,7 @@ class SearchTest {
 
     @Test
     fun searchCompaniesTest(){
-        runTest(:: searchCompanies)
+        runTest(:: searchCompanies, driverList)
     }
     private fun searchCompanies(driver: WebDriver){
         val mainPage = MainPage(driver)
