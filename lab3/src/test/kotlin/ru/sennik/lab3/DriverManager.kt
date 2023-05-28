@@ -29,7 +29,7 @@ object DriverManager {
     fun getChromeDriver(name: String): RemoteWebDriver {
         val chromeDriver: RemoteWebDriver
         val chromeOptions = ChromeOptions()
-        chromeOptions.setCapability("browserVersion", "111.0")
+        chromeOptions.setCapability("browserVersion", "112.0")
         chromeOptions.setCapability("selenoid:options", opts("$name-chrome"))
         chromeOptions.addArguments("--remote-allow-origins=*")
         chromeDriver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), chromeOptions)
@@ -46,7 +46,7 @@ object DriverManager {
     fun getFirefoxDriver(name: String): RemoteWebDriver {
         val firefoxDriver: RemoteWebDriver
         val firefoxOptions = FirefoxOptions()
-        firefoxOptions.setCapability("browserVersion", "111.0")
+        firefoxOptions.setCapability("browserVersion", "112.0")
         firefoxOptions.setCapability("selenoid:options", opts("$name-firefox"))
         firefoxDriver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), firefoxOptions)
         firefoxDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10))

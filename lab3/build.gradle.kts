@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.7.22"
     java
-    jacoco
+    //jacoco
 }
 
 group = "ru.sennik"
@@ -19,6 +19,8 @@ dependencies {
 
     implementation("org.seleniumhq.selenium:selenium-java:4.9.1")
     implementation("org.seleniumhq.selenium:selenium-chrome-driver:4.9.1")
+
+    implementation("com.codeborne:selenide:6.14.1")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.0")
