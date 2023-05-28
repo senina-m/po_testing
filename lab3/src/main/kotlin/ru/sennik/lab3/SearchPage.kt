@@ -32,9 +32,12 @@ class SearchPage(driver: WebDriver) {
         val result = Array<String?>(num)  { null }
         for (i: Int in 0 until num) {
             result[i] = driver.findElement(
-                By.xpath("//*[@id=\"a11y-main-content\"]/div[${i+2}]/div/div[1]/div/div[3]/h3"))?.text
+                By.xpath("/html/body/div[5]/div/div[3]/div[1]/div/div[2]/div[2]/div[2]/main/div[1]/div[${3+i}]/div/div[1]/div/div[1]/h3/span/a"))?.text
             //*[@id="a11y-main-content"]/div[4]/div/div[1]/div[1]/div[3]/h3/span/a
             //*[@id="a11y-main-content"]/div[4]/div/div[1]/div/div[3]/h3
+//            /html/body/div[5]/div/div[3]/div[1]/div/div[2]/div[2]/div[2]/main/div[1]/div[3]/div/div[1]/div/div[1]/h3/span/a
+//            /html/body/div[5]/div/div[3]/div[1]/div/div[2]/div[2]/div[2]/main/div[1]/div[5]/div/div[1]/div/div[3]/h3/span/a
+//            /html/body/div[5]/div/div[3]/div[1]/div/div[2]/div[2]/div[2]/main/div[1]/div[6]/div/div[1]/div/div[1]/h3/span/a
         }
         return result
     }

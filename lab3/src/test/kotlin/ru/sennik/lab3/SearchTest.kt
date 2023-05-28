@@ -19,14 +19,11 @@ class SearchTest {
 
     @BeforeEach
     fun setup() {
-        driverList = emptyList()
-        driverList + (driverManager.getChromeDriver(testName))
-        driverList + (driverManager.getFirefoxDriver(testName))
-    //     System.setProperty("webdriver.chrome.driver", getProperty("chromedriver"))
-    //     val driver = ChromeDriver()
-    //    driver.manage().window().maximize()
-    //    driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS)
-    //    driverList + driver
+        driverList = mutableListOf(driverManager.getChromeDriver(testName), driverManager.getFirefoxDriver(testName))
+        driverList.forEach{
+            it.manage().timeouts().implicitlyWait(1000, TimeUnit.MILLISECONDS)
+            it.get(getProperty("mainpage"))
+        }
     }
 
     @AfterEach
@@ -36,7 +33,6 @@ class SearchTest {
 
     // функция, которая запускает тесты параллельно
     private fun runTest(testFun : (RemoteWebDriver) -> Unit){
-        println("driverList= ${driverList.size}")
         val executor = Executors.newFixedThreadPool(driverList.size)
         val results = driverList.map { d ->
             executor.submit{
@@ -44,7 +40,7 @@ class SearchTest {
             }
         }
         executor.shutdown()
-        executor.awaitTermination(15, TimeUnit.SECONDS)
+//        executor.awaitTermination(15, TimeUnit.SECONDS)
         results.forEach{
             try{
                 it.get()
@@ -58,21 +54,6 @@ class SearchTest {
                 Assertions.fail<Any>()
             }
         }
-
-        // val latch = CountDownLatch(driverList.size)
-        // driverList.forEach { d ->
-        //     thread {
-        //         try {
-        //             testFun(d)
-        //         } catch (e: InterruptedException) {
-        //             Assertions.fail<Any>()
-        //         } finally {
-        //             latch.countDown()
-        //         }
-        //     }
-        // }
-        // latch.await()
-        // Assertions.assertEquals(true, true)
     }
 
     @Test
@@ -81,16 +62,16 @@ class SearchTest {
     }
 
     private fun searchVacancy(driver: WebDriver){
-        throw InterruptedException("fail test")
-        // val mainPage = MainPage(driver)
-        // val searchPage = SearchPage(driver)
-        // mainPage.inputVacancy(getProperty("vacancy"))
-        // mainPage.clickSearchBtn()
-        // val num = getProperty("num_of_vacancies").toInt()
-        // val headers = searchPage.getVacanciesHeaders(num)
-        // for (i: Int in 0 until num){
-        //     headers[i]?.lowercase()?.let { Assertions.assertTrue(it.contains(getProperty("vacancy").lowercase())) }
-        // }
+//        throw InterruptedException("fail test")
+         val mainPage = MainPage(driver)
+         val searchPage = SearchPage(driver)
+         mainPage.inputVacancy(getProperty("vacancy"))
+         mainPage.clickSearchBtn()
+         val num = getProperty("num_of_vacancies").toInt()
+         val headers = searchPage.getVacanciesHeaders(num)
+         for (i: Int in 0 until num){
+             headers[i]?.lowercase()?.let { Assertions.assertTrue(it.contains(getProperty("vacancy").lowercase())) }
+         }
     }
 
     @Test
