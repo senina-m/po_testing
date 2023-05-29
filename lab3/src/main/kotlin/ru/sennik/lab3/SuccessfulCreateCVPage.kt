@@ -14,8 +14,11 @@ class SuccessfulCreateCVPage(driver: WebDriver) {
    @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[3]/div[1]/div/div/div/div[2]/div[1]/div[1]/h2/span")
    private val successHeader: WebElement? = null
 
-   @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[2]/div[1]/div/div/div/div[1]/a")
-   private val goToCVButton: WebElement? = null
+   @FindBy(xpath = "/html/body/div[4]/div/div[2]/div[1]/div/div/div/div[1]/a")
+   private val goToCVButtonChrome: WebElement? = null
+
+   @FindBy(xpath = "/html/body/div[5]/div/div[2]/div[1]/div/div/div/div[1]/a")
+   private val goToCVButtonMozilla: WebElement? = null
 
    init {
       PageFactory.initElements(driver, this)
@@ -25,6 +28,10 @@ class SuccessfulCreateCVPage(driver: WebDriver) {
    fun checkSuccessHeader(): Boolean = runCatching { successHeader?.isDisplayed }.isSuccess
 
    fun clickGoToCVButton() {
-      goToCVButton?.click()
+      runCatching {
+         goToCVButtonChrome!!.click()
+      }.onFailure {
+         goToCVButtonMozilla!!.click()
+      }
    }
 }

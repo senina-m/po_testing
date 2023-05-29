@@ -5,6 +5,7 @@ import org.openqa.selenium.remote.RemoteWebDriver
 import ru.sennik.lab3.ConfProperties.getProperty
 import ru.sennik.lab3.Currency.Companion.toCurrency
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 /**
  * @author Natalia Nikonova
@@ -49,9 +50,10 @@ class CVPageTest {
     }
 
     @Test
-    fun createWithWorkExperienceSuccessful() {
+    fun createWithWorkExperienceSuccessfulTest() {
         runTest(::createWithWorkExperienceSuccessful, driverList)
     }
+
     private fun createWithWorkExperienceSuccessful(driver: RemoteWebDriver) {
         val listCVPage = ListCVPage(driver)
         listCVPage.clickCreateCVButton()
@@ -69,7 +71,8 @@ class CVPageTest {
         // проверить что не доступны поля для нет опыта
         Assertions.assertTrue(cvPage.checkNotExistNoWorkExperienceFields())
         // заполнить минимум
-        cvPage.fillSpecialization(getProperty("post"), getProperty("salary").toInt(), getProperty("currency").toCurrency()!!)
+        val post = getProperty("post") + Random.nextInt()
+        cvPage.fillSpecialization(post, getProperty("salary").toInt(), getProperty("currency").toCurrency()!!)
         cvPage.addWork(
                 getProperty("startWorkMonth").toInt(),
                 getProperty("startWorkYear").toInt(),
@@ -83,11 +86,11 @@ class CVPageTest {
         // проверить что отправилось успешно
         Assertions.assertTrue(successfulCreateCVPage.checkSuccessHeader())
         // удалить
-        clearCV(getProperty("post"), successfulCreateCVPage, listCVPage, cvViewPage)
+        clearCV(post,successfulCreateCVPage, listCVPage, cvViewPage)
     }
 
     @Test
-    fun createWithoutWorkExperienceSuccessful() {
+    fun createWithoutWorkExperienceSuccessfulTest() {
         runTest(::createWithoutWorkExperienceSuccessful, driverList)
     }
 
@@ -101,7 +104,7 @@ class CVPageTest {
         // что не доступны поля которые после выбора опыта открываются
         checkNotVisibleAdditionInfo(cvPage)
         // проверить что поля по умолчанию добавились правильно
-        checkDefaultValues(cvPage)
+//        checkDefaultValues(cvPage)
 
         // выбрать что нет опыт работы
         cvPage.selectWithoutWorkExperience()

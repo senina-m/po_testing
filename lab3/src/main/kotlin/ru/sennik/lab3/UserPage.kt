@@ -10,29 +10,27 @@ import java.lang.RuntimeException
 class UserPage(driver: WebDriver) {
     private var driver: WebDriver
 
-//    @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[2]/div[1]/div/div/div/div[10]/div/div[1]/div/button")
-    @FindBy(xpath = "/html/body/div[5]/div/div[2]/div[1]/div/div/div/div[10]/div/div[1]/div/button/span")
+    @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[2]/div[1]/div/div/div/div[10]/div/div[1]/div/button/span")
+//    @FindBy(xpath = "/html/body/div[5]/div/div[2]/div[1]/div/div/div/div[10]/div/div[1]/div/button/span")
     private val userInfo: WebElement? = null
 
-    @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[1]/a/span")
-    private val userName: WebElement? = null
+////    @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[1]/a/span") //firefox
+////    @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[1]/a/span") //chrome
+//    private val userName: WebElement? = null
 
     @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[3]/div/form/button")
+//    /html/body/div[12]/div/div/div[2]/div[3]/div/form/button //firefox
+//    /html/body/div[12]/div/div/div[2]/div[3]/div/form/button //chrome
     private val logoutBtn : WebElement? = null
-
-//    @FindBy(xpath = "/html/body/div[12]/div/div/div[2]/div[2]/a[1]")
-
-    @FindBy(xpath = "/html/body/div[11]/div/div/div[2]/div[2]/a[1]")
-    private val settingsBtn : WebElement? = null
 
     init {
         PageFactory.initElements(driver, this)
         this.driver = driver
     }
 
-    fun getUserName(): String? {
-        return userName?.text
-    }
+//    fun getUserName(): String? {
+//        return userName?.text
+//    }
 
     fun clickUserInfo(){
         userInfo!!.click()

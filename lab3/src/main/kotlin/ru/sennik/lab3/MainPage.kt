@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 import org.openqa.selenium.support.PageFactory
+
 class MainPage(driver: WebDriver) {
 
     //конструктор класса, занимающийся инициализацией полей класса
@@ -21,11 +22,12 @@ class MainPage(driver: WebDriver) {
     @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[2]/div/div/div/div/div[5]/a")
     private val loginBtn: WebElement? = null
 
-    @FindBy(xpath = "//*[@id=\"HH-React-Root\"]/div/div[2]/div[1]/div/div/div/div[1]/a")
-    private val goToCVButton: WebElement? = null
+    @FindBy(xpath = "/html/body/div[4]/div/div[2]/div[1]/div/div/div/div[1]/a")
+    private val goToCVButtonChrome: WebElement? = null
 
-    @FindBy(xpath = "/html/body/div[4]/div/div[3]/div[1]/div[1]/div/div/div[1]/div/form/div/div[2]/button")
-    private val findButton: WebElement? = null
+    @FindBy(xpath = "/html/body/div[5]/div/div[2]/div[1]/div/div/div/div[1]/a")
+    private val goToCVButtonMozilla: WebElement? = null
+
 
     init {
         PageFactory.initElements(driver, this)
@@ -52,6 +54,10 @@ class MainPage(driver: WebDriver) {
     }
 
     fun clickGoToCVButton() {
-        goToCVButton!!.click()
+        runCatching {
+            goToCVButtonChrome!!.click()
+        }.onFailure {
+            goToCVButtonMozilla!!.click()
+        }
     }
 }

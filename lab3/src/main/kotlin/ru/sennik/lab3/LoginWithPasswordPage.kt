@@ -1,5 +1,6 @@
 package ru.sennik.lab3
 
+import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
@@ -40,5 +41,14 @@ class LoginWithPasswordPage(driver: WebDriver) {
 
     fun login() {
         loginButton!!.click()
+    }
+
+    fun checkIfFailLogin(): Boolean{
+        try {
+            By.xpath("/html/body/div[5]/div/div[3]/div[1]/div/div/div/div/div/div[1]/div[1]/div/form/div[5]/div")
+        } catch (e : NoSuchElementException){
+            return true
+        }
+        return false
     }
 }

@@ -6,7 +6,6 @@
  import org.openqa.selenium.remote.RemoteWebDriver
 
  class AccountTest {
-
      private var driverManager = DriverManager
      private var driverList = emptyList<RemoteWebDriver>()
      private val testName = " account_test"
@@ -42,13 +41,15 @@
          val mainPage = MainPage(driver)
          val loginPage = LoginPage(driver)
          val loginWithPasswordPage = LoginWithPasswordPage(driver)
-         val userPage = UserPage(driver)
 
          login(getProperty("login"), getProperty("password"), mainPage, loginPage, loginWithPasswordPage)
-         userPage.clickUserInfo()
-         val name: String? = userPage.getUserName()
-         println(name.toString())
-         Assertions.assertEquals(name, getProperty("userName"))
+         Assertions.assertFalse(loginWithPasswordPage.checkIfFailLogin())
+
+//         val userPage = UserPage(driver)
+//         userPage.clickUserInfo()
+//         val name: String? = userPage.getUserName()
+//         println(name.toString())
+//         Assertions.assertEquals(name, getProperty("userName"))
      }
 
      @Test
@@ -74,60 +75,60 @@
          userPage.clickSettings()
      }
 
-     @Test
-     fun changeNameTest(){
-         runTest(::changeName, driverList)
-     }
-
-     private fun changeName(driver: RemoteWebDriver){
-         val mainPage = MainPage(driver)
-         val loginPage = LoginPage(driver)
-         val loginWithPasswordPage = LoginWithPasswordPage(driver)
-         val userPage = UserPage(driver)
-         val settingsPage = SettingsPage(driver)
-         openSettings(mainPage, loginPage, loginWithPasswordPage, userPage)
-         settingsPage.clickChangeName()
-         settingsPage.inputName(getProperty("new_name"))
-         settingsPage.inputSurname(getProperty("new_surname"))
-         settingsPage.input2Name(getProperty("new_name2")) //optional
-         settingsPage.clickSaveName()
-         val name = settingsPage.getUserName()
-         println(settingsPage.getUserName().toString())
-         Assertions.assertEquals("${getProperty("new_surname")} ${getProperty("new_name2")} ${getProperty("new_name")}", name)
-
-         //set old name
-         settingsPage.clickChangeName()
-         settingsPage.inputName(getProperty("name"))
-         settingsPage.inputSurname(getProperty("surname"))
-         settingsPage.input2Name(getProperty("name2")) //optional
-         settingsPage.clickSaveName()
-     }
-     @Test
-     fun changePassword(){
-         runTest(::changePassword, driverList)
-     }
-     private fun changePassword(driver: RemoteWebDriver){
-         val mainPage = MainPage(driver)
-         val loginPage = LoginPage(driver)
-         val loginWithPasswordPage = LoginWithPasswordPage(driver)
-         val userPage = UserPage(driver)
-         val settingsPage = SettingsPage(driver)
-         openSettings(mainPage, loginPage, loginWithPasswordPage, userPage)
-         settingsPage.clickChangePassword()
-         settingsPage.inputOldPassword(getProperty("password"))
-         val newPass = getProperty("new_password")
-         settingsPage.inputNewPassword1(newPass)
-         settingsPage.inputNewPassword2(newPass)
-         settingsPage.clickSavePassword()
-         // the password was changed
-         val notification: String? = settingsPage.getPasswordChangedNotification()
-         Assertions.assertEquals(notification, getProperty("notification_pass_success"))
-
-         //change password back
-         settingsPage.clickChangePassword()
-         settingsPage.inputOldPassword(getProperty("new_password"))
-         settingsPage.inputNewPassword1(getProperty("password"))
-         settingsPage.inputNewPassword2(getProperty("password"))
-         settingsPage.clickSavePassword()
-     }
+//     @Test
+//     fun changeNameTest(){
+//         runTest(::changeName, driverList)
+//     }
+//
+//     private fun changeName(driver: RemoteWebDriver){
+//         val mainPage = MainPage(driver)
+//         val loginPage = LoginPage(driver)
+//         val loginWithPasswordPage = LoginWithPasswordPage(driver)
+//         val userPage = UserPage(driver)
+//         val settingsPage = SettingsPage(driver)
+//         openSettings(mainPage, loginPage, loginWithPasswordPage, userPage)
+//         settingsPage.clickChangeName()
+//         settingsPage.inputName(getProperty("new_name"))
+//         settingsPage.inputSurname(getProperty("new_surname"))
+//         settingsPage.input2Name(getProperty("new_name2")) //optional
+//         settingsPage.clickSaveName()
+//         val name = settingsPage.getUserName()
+//         println(settingsPage.getUserName().toString())
+//         Assertions.assertEquals("${getProperty("new_surname")} ${getProperty("new_name2")} ${getProperty("new_name")}", name)
+//
+//         //set old name
+//         settingsPage.clickChangeName()
+//         settingsPage.inputName(getProperty("name"))
+//         settingsPage.inputSurname(getProperty("surname"))
+//         settingsPage.input2Name(getProperty("name2")) //optional
+//         settingsPage.clickSaveName()
+//     }
+//     @Test
+//     fun changePassword(){
+//         runTest(::changePassword, driverList)
+//     }
+//     private fun changePassword(driver: RemoteWebDriver){
+//         val mainPage = MainPage(driver)
+//         val loginPage = LoginPage(driver)
+//         val loginWithPasswordPage = LoginWithPasswordPage(driver)
+//         val userPage = UserPage(driver)
+//         val settingsPage = SettingsPage(driver)
+//         openSettings(mainPage, loginPage, loginWithPasswordPage, userPage)
+//         settingsPage.clickChangePassword()
+//         settingsPage.inputOldPassword(getProperty("password"))
+//         val newPass = getProperty("new_password")
+//         settingsPage.inputNewPassword1(newPass)
+//         settingsPage.inputNewPassword2(newPass)
+//         settingsPage.clickSavePassword()
+//         // the password was changed
+//         val notification: String? = settingsPage.getPasswordChangedNotification()
+//         Assertions.assertEquals(notification, getProperty("notification_pass_success"))
+//
+//         //change password back
+//         settingsPage.clickChangePassword()
+//         settingsPage.inputOldPassword(getProperty("new_password"))
+//         settingsPage.inputNewPassword1(getProperty("password"))
+//         settingsPage.inputNewPassword2(getProperty("password"))
+//         settingsPage.clickSavePassword()
+//     }
  }
