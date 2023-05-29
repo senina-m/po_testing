@@ -9,7 +9,7 @@
 
      private var driverManager = DriverManager
      private var driverList = emptyList<RemoteWebDriver>()
-     private val testName = "search_test"
+     private val testName = " account_test"
 
      @BeforeEach
      fun setup() {

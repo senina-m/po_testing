@@ -32,7 +32,6 @@ class SearchTest {
     }
 
     private fun searchVacancy(driver: WebDriver){
-//        throw InterruptedException("fail test")
          val mainPage = MainPage(driver)
          val searchPage = SearchPage(driver)
          mainPage.inputVacancy(getProperty("vacancy"))
@@ -40,6 +39,7 @@ class SearchTest {
          val num = getProperty("num_of_vacancies").toInt()
          val headers = searchPage.getVacanciesHeaders(num)
          for (i: Int in 0 until num){
+             println(headers[i].toString())
              headers[i]?.lowercase()?.let { Assertions.assertTrue(it.contains(getProperty("vacancy").lowercase())) }
          }
     }
